@@ -1,0 +1,15 @@
+classe principale con il main per GestireSuola
+classe per definire i corsi della scuola
+classe per definire gli alunni del corso
+classe per definire i voti degli alunni
+
+nome classe inizio maiuscolo al singolare es. Ticket
+nelle sue graffe 4 possibili cose: 
+Ticket {
+    elenco attributi private della classe
+    elenco costruttori 
+    elenco metodi getter e setter
+    elenco metodi classe
+
+}
+
