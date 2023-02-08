@@ -1,0 +1,11 @@
+Realizzare per una banca la classe Banca con proprietà nome e conti correnti. Un conto corrente è caratterizzato dalle proprietà intestatario,numero,saldo.
+La classe banca offre le seguenti funzionalità:
+
+    • Un costruttore con il nome della banca.
+    • Il metodo apriConto con parametro intestatario,che ritorna il numero conto.
+    • Il metodo preleva con parametro numero conto, importo che ritorna il nuovo saldo e verifica correttezza.
+    • Il metodo deposita con parametro numero conto, importo che ritorna il nuovo saldo e verifica correttezza.
+    • Il metodo saldo  con parametro numero conto che ritorna il saldo per quel conto.
+    • Il metodo chiudiConto  con parametro numero conto che chiude il conto.
+
+Nel main, creare un oggetto banca e simulare le operazioni possibili.
