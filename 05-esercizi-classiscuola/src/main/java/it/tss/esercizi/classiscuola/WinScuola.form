@@ -122,9 +122,9 @@
                           <Component id="jScrollPane1" min="-2" pref="72" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="btnSendCorso" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnResetDati" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnResetDati" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblMsg" min="-2" max="-2" attributes="0"/>
