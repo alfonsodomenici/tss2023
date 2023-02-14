@@ -13,7 +13,7 @@ public class Corso {
     private String nomeCorso;
     private int durataOre;
     private float costo;
-    private String descrizione;
+    private String descrizione="";
     Alunno[] elencoAlunni = new Alunno[30];
     private ArrayList<Materia> elencoMaterie = new ArrayList<Materia>();
 
@@ -26,6 +26,13 @@ public class Corso {
         this.nomeCorso = nomeCorso;
         this.durataOre = durataOre;
         this.costo = costo;
+    }
+ public Corso(String nomeCorso, int durataOre,
+         float costo, String descrizione) {
+        this.nomeCorso = nomeCorso;
+        this.durataOre = durataOre;
+        this.costo = costo;
+        this.descrizione=descrizione;
     }
 
     public String getNomeCorso() {
@@ -53,7 +60,11 @@ public class Corso {
     }
 
     public String getDescrizione() {
-        return descrizione;
+        if (descrizione == null) {
+            return "";
+        } else {
+            return descrizione;
+        }
     }
 
     public void setDescrizione(String descrizione) {
@@ -224,7 +235,16 @@ public class Corso {
         }
 
     }
-
+    
+    //14:57
+    
+    public String infoCSV(){
+        String ris="";
+        ris=nomeCorso + ";" + durataOre +";";
+        ris+= costo + ";" + descrizione;
+        return ris;
+    }
+    
     public void info() {
         System.out.println("corso: " + nomeCorso);
         System.out.println("durata: " + durataOre);

@@ -22,23 +22,14 @@ public class App {
 
     public static void main(String[] args) throws IOException {
 
-try{
-        Scanner s = new Scanner(System.in);
-        
-        System.out.println("Dimmi il nome dell'intestatario?");
-        String intestatario = s.nextLine();
-        
-        CCFido cc1 = new CCFido(100,intestatario);
-        
-        cc1.versamento(50);
-        
-        cc1.prelievo(100);
-            
-        System.out.println(cc1);
-        }catch(IllegalArgumentException ex){
-            System.out.println(ex.getMessage());
-            System.out.println("Scusa il programma verrà terminato");
-        }
+        A a = new A("xx");
 
+        A a1 = new A("xx");
+
+        ArrayList<A> lista = new ArrayList<>();
+        lista.add(a);
+        
+        System.out.println(lista.contains(a1));
+        
     }
 }

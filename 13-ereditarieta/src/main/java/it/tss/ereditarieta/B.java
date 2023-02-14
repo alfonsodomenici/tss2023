@@ -10,7 +10,11 @@ package it.tss.ereditarieta;
  */
 public class B extends A {
 
-    public B() {
+    private String p2;
+
+    public B(String p, String p2) {
+        super(p);
+        this.p2 = p2;
         System.out.println("costruttore di B");
     }
 
@@ -24,4 +28,10 @@ public class B extends A {
         System.out.println("sono il metodo m1 del tipo A riscritto in B");
     }
 
+    @Override
+    public String toString() {
+        return "B{" + "p1=" + this.getP1() + "p2=" + p2 + '}';
+    }
+
+    
 }
