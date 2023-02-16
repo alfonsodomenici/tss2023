@@ -4,11 +4,12 @@
  */
 package it.tss.esercizi.classiscuola;
 
-import static it.tss.esercizi.classiscuola.GestScuola.elencoCorsi;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,6 +27,9 @@ public class WinScuola extends javax.swing.JFrame {
         elencoCorsi = new ArrayList<Corso>();
         caricaCorsi();
         refreshCorsi();
+        if (elencoCorsi.size() > 0) {
+            lstCorsi.setSelectedIndex(0);
+        }
     }
 
     /**
@@ -54,11 +58,11 @@ public class WinScuola extends javax.swing.JFrame {
         btnResetDati = new javax.swing.JButton();
         btnLoadCorsi = new javax.swing.JButton();
         btnSaveCorsi = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        lstCorsi = new javax.swing.JList<>();
-        etIndexCorso = new javax.swing.JTextField();
         btnFindCorso = new javax.swing.JButton();
         btnUpdateCorso = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        lstCorsi = new javax.swing.JList<>();
+        btnDeleteCorso = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,12 +79,6 @@ public class WinScuola extends javax.swing.JFrame {
         });
 
         etNomeCorso.setToolTipText("ins cognome");
-
-        etDurataCorso.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                etDurataCorsoActionPerformed(evt);
-            }
-        });
 
         etDescrizione.setColumns(20);
         etDescrizione.setRows(5);
@@ -120,10 +118,6 @@ public class WinScuola extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane3.setViewportView(lstCorsi);
-
-        etIndexCorso.setText("000");
-
         btnFindCorso.setText("find");
         btnFindCorso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,6 +132,25 @@ public class WinScuola extends javax.swing.JFrame {
             }
         });
 
+        lstCorsi.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        lstCorsi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstCorsiMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(lstCorsi);
+
+        btnDeleteCorso.setText("del");
+        btnDeleteCorso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteCorsoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -148,40 +161,41 @@ public class WinScuola extends javax.swing.JFrame {
                     .addComponent(lblCorso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(etNomeCorso, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(etCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(etDurataCorso, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(lblMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(btnResetDati)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(btnSendCorso, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(etNomeCorso, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(etCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(etDurataCorso, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnResetDati)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnSendCorso, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(lblMsg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(etIndexCorso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnFindCorso, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnFindCorso)
+                                .addComponent(btnUpdateCorso, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnUpdateCorso, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnSaveCorsi, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                                .addComponent(btnDeleteCorso, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                                .addComponent(btnSaveCorsi, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnLoadCorsi, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2))))
@@ -196,14 +210,13 @@ public class WinScuola extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)
+                        .addGap(4, 4, 4)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnLoadCorsi)
                             .addComponent(btnSaveCorsi)
-                            .addComponent(etIndexCorso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnFindCorso)
-                            .addComponent(btnUpdateCorso))
-                        .addContainerGap(79, Short.MAX_VALUE))
+                            .addComponent(btnUpdateCorso)
+                            .addComponent(btnDeleteCorso)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(etNomeCorso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -227,24 +240,24 @@ public class WinScuola extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblMsg)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void etDurataCorsoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_etDurataCorsoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_etDurataCorsoActionPerformed
-
     private void btnSendCorsoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendCorsoActionPerformed
         Corso newc = creaCorso();
-        if (newc == null) return;
+        if (newc == null) {
+            return;
+        }
         //adesso lo aggiungo all'elenco dei miei corsi
         elencoCorsi.add(newc);
         lblMsg.setText("Operazione confermata! Corso inserito");
         txpViewCorsi.setText(getCorsiCSV());
-
+        refreshListaCorsi();
+        salvaCorsi();
     }//GEN-LAST:event_btnSendCorsoActionPerformed
 
     private void btnResetDatiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetDatiActionPerformed
@@ -270,8 +283,10 @@ public class WinScuola extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveCorsiActionPerformed
 
     private void btnFindCorsoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindCorsoActionPerformed
-        String val = etIndexCorso.getText();
+        /*String val = etIndexCorso.getText();
         int index = Integer.parseInt(val) -1;
+         */
+        int index = lstCorsi.getSelectedIndex();
         Corso c = elencoCorsi.get(index);
         etNomeCorso.setText(c.getNomeCorso());
         etDurataCorso.setText(String.valueOf(c.getDurataOre()));
@@ -282,22 +297,40 @@ public class WinScuola extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFindCorsoActionPerformed
 
     private void btnUpdateCorsoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateCorsoActionPerformed
-        Corso newc= creaCorso();
-        if (newc==null) return;
+        Corso newc = creaCorso();
+        if (newc == null) {
+            return;
+        }
         //adesso aggiorno l'iesimo corso in update
-        String val = etIndexCorso.getText();
-        int index = Integer.parseInt(val) -1;
-        elencoCorsi.set(index, newc);
+
+        elencoCorsi.set(lstCorsi.getSelectedIndex(), newc);
         lblMsg.setText("Operazione confermata! Corso aggiornato");
         txpViewCorsi.setText(getCorsiCSV());
+        refreshListaCorsi();
+        salvaCorsi();
 
-        
-        
 // TODO add your handling code here:
     }//GEN-LAST:event_btnUpdateCorsoActionPerformed
-   
-    private Corso creaCorso(){
-    // input leggo da etNomocorso cosahai scritto
+
+    private void lstCorsiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstCorsiMouseClicked
+        // TODO add your handling code here:
+        btnFindCorsoActionPerformed(null);
+    }//GEN-LAST:event_lstCorsiMouseClicked
+
+    private void btnDeleteCorsoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteCorsoActionPerformed
+        // TODO add your handling code here:
+        int indexDelete = lstCorsi.getSelectedIndex();
+        if (indexDelete >= 0) {
+            elencoCorsi.remove(indexDelete);
+            refreshListaCorsi();
+            refreshCorsi();
+            salvaCorsi();
+
+        }
+    }//GEN-LAST:event_btnDeleteCorsoActionPerformed
+
+    private Corso creaCorso() {
+        // input leggo da etNomocorso cosahai scritto
         //1 recupero i dati da interfaccia
         String ncorso = etNomeCorso.getText();
         String tdurata = etDurataCorso.getText();
@@ -325,8 +358,9 @@ public class WinScuola extends javax.swing.JFrame {
         // se arrivo qua posso creare il corso
         Corso newc = new Corso(ncorso, durata, costo, descr);
         return newc;
-    
+
     }
+
     private void refreshCorsi() {
         txpViewCorsi.setText(getCorsiCSV());
         btnResetDatiActionPerformed(null);
@@ -400,10 +434,23 @@ public class WinScuola extends javax.swing.JFrame {
                 elencoCorsi.add(newcorso);
 
             }
+            refreshListaCorsi();
 
         } catch (Exception e) {
             System.out.println("Errore: " + e.getMessage());
         }
+
+    }
+
+    private void refreshListaCorsi() {
+        //oggettostile lista a cui aggiungere gli elementi che dovro'
+        //vedere in lista grafica
+        DefaultListModel listModel = new DefaultListModel();
+        for (Corso c : elencoCorsi) {
+            //String nc= c.getNomeCorso();
+            listModel.addElement(c.getNomeCorso());
+        }
+        lstCorsi.setModel(listModel);
 
     }
 
@@ -416,12 +463,13 @@ public class WinScuola extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new WinScuola().setVisible(true);
-                
+
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDeleteCorso;
     private javax.swing.JButton btnFindCorso;
     private javax.swing.JButton btnLoadCorsi;
     private javax.swing.JButton btnResetDati;
@@ -431,7 +479,6 @@ public class WinScuola extends javax.swing.JFrame {
     private javax.swing.JTextField etCosto;
     private javax.swing.JTextArea etDescrizione;
     private javax.swing.JTextField etDurataCorso;
-    private javax.swing.JTextField etIndexCorso;
     private javax.swing.JTextField etNomeCorso;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -439,7 +486,7 @@ public class WinScuola extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblCorso;
     private javax.swing.JLabel lblMsg;
     private javax.swing.JList<String> lstCorsi;

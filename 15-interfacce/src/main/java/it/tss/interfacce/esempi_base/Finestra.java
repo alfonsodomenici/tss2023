@@ -4,6 +4,7 @@
  */
 package it.tss.interfacce.esempi_base;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -20,6 +21,7 @@ public class Finestra extends javax.swing.JFrame implements ActionListener{
      */
     public Finestra() {
         initComponents();
+        this.getContentPane().setLayout(new BorderLayout());
         this.btnProva.addActionListener(this);
         this.btnProva.addActionListener(this::clickSuBottone);
     }
@@ -40,23 +42,23 @@ public class Finestra extends javax.swing.JFrame implements ActionListener{
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnProva.setText("prova");
+        btnProva.setText("jButton1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(152, 152, 152)
+                .addGap(109, 109, 109)
                 .addComponent(btnProva)
-                .addContainerGap(201, Short.MAX_VALUE))
+                .addContainerGap(226, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(94, 94, 94)
+                .addGap(102, 102, 102)
                 .addComponent(btnProva)
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addContainerGap(169, Short.MAX_VALUE))
         );
 
         pack();
