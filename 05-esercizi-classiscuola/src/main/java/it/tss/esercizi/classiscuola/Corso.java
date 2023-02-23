@@ -11,11 +11,12 @@ import java.util.Scanner;
 public class Corso {
 
     private String nomeCorso;
+    private String fasciaOraria="";
     private int durataOre;
     private float costo;
     private String descrizione="";
     Alunno[] elencoAlunni = new Alunno[30];
-    private ArrayList<Materia> elencoMaterie = new ArrayList<Materia>();
+    private ArrayList<Materia> elencoMaterieCorso = new ArrayList<Materia>();
 
     //int id_corso;
     public Corso() {
@@ -28,13 +29,30 @@ public class Corso {
         this.costo = costo;
     }
  public Corso(String nomeCorso, int durataOre,
-         float costo, String descrizione) {
+         float costo, String descrizione, String fasciaOraria) {
         this.nomeCorso = nomeCorso;
         this.durataOre = durataOre;
         this.costo = costo;
         this.descrizione=descrizione;
+        this.fasciaOraria=fasciaOraria;    
     }
 
+    public ArrayList<Materia> getElencoMaterieCorso() {
+        return elencoMaterieCorso;
+    }
+
+    public void setElencoMaterieCorso(ArrayList<Materia> elencoMaterieCorso) {
+        this.elencoMaterieCorso = elencoMaterieCorso;
+    }
+    
+    public String getFasciaOraria() {
+        return fasciaOraria;
+    }
+
+    public void setFasciaOraria(String fasciaOraria) {
+        this.fasciaOraria = fasciaOraria;
+    }
+    
     public String getNomeCorso() {
         return nomeCorso;
     }
@@ -109,7 +127,7 @@ public class Corso {
     public void addMateriaNoOreDef(Materia mat) {
         // mi assicuro che la materia venga caricata con 0 ore
         mat.setDurataOre(0);
-        elencoMaterie.add(mat);
+        elencoMaterieCorso.add(mat);
     }
 
     public boolean addMateriaFullOre(Materia mat) {
@@ -118,7 +136,7 @@ public class Corso {
         //se troppo non aggiungo altrimenti aggiungo
         if (durataOre >= mat.getDurataOre()) {
             if (mat.getDurataOre() < getNumOreLeft()) {
-                elencoMaterie.add(mat);
+                elencoMaterieCorso.add(mat);
                 ok = true;
             } else {
                 // se rimasto piu' di 0 ok la inserisco con il rimanente
@@ -126,7 +144,7 @@ public class Corso {
                     // allamateria gli ho dato tutto il rimante
                     mat.setDurataOre(getNumOreLeft());
                     //finalmente la aggiungo
-                    elencoMaterie.add(mat);
+                    elencoMaterieCorso.add(mat);
                 } else { // se neanche questa e' andata bene KO
                     ok = false;
                 }
@@ -144,7 +162,7 @@ public class Corso {
         System.out.println("Corso: " + nomeCorso);
         System.out.println("--elenco materie--");
 
-        for (Materia m : elencoMaterie) {
+        for (Materia m : elencoMaterieCorso) {
             m.info();
         }
 
@@ -169,7 +187,7 @@ public class Corso {
 
 //controllo nomesame in lista materie corso
         //scorro lematerie con for
-        for (Materia materiaCurr : elencoMaterie) {
+        for (Materia materiaCurr : elencoMaterieCorso) {
             // tiro fuori un mat alla volta
             if (nomeEsame.equals(materiaCurr.getNomeMateria())) {
                 //posso costruire un voto con i dati corretti
@@ -191,15 +209,15 @@ public class Corso {
         int num = 0;
         // ciclo tutte le materie e faccio la somma 
         // della loro durata in ore
-        for (int i = 0; i < elencoMaterie.size(); i++) {
+        for (int i = 0; i < elencoMaterieCorso.size(); i++) {
             //prendo una materia per volta
-            Materia mat = elencoMaterie.get(i);
+            Materia mat = elencoMaterieCorso.get(i);
             num = num + mat.getDurataOre();
         }
         //altra versione piu' bella...
 
         num = 0;
-        for (Materia mat : elencoMaterie) {
+        for (Materia mat : elencoMaterieCorso) {
             num = num + mat.getDurataOre();
         }
 
@@ -241,7 +259,13 @@ public class Corso {
     public String infoCSV(){
         String ris="";
         ris=nomeCorso + ";" + durataOre +";";
-        ris+= costo + ";" + descrizione;
+        ris+= costo + ";" + descrizione +";" + fasciaOraria;
+        String elMat=""; // "db mysql,java base,inglese"
+        for (Materia m :elencoMaterieCorso){
+            elMat+=m.getNomeMateria() + "|";
+        }
+        // elmat="db mysql,java base,inglese,"
+        ris+=";" +elMat;
         return ris;
     }
     
@@ -250,7 +274,7 @@ public class Corso {
         System.out.println("durata: " + durataOre);
         System.out.println("descrizione: " + descrizione);
         // elenco materie
-        for (Materia m : elencoMaterie) {
+        for (Materia m : elencoMaterieCorso) {
             m.info();
         }
         for (Alunno al : elencoAlunni) {
