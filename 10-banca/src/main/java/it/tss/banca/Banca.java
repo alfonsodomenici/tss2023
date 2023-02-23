@@ -7,6 +7,10 @@ package it.tss.banca;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import javax.naming.OperationNotSupportedException;
 
 /**
@@ -48,12 +52,31 @@ public class Banca {
     }
 
     private Optional<ContoCorrente> cerca(int nconto) {
-        for (ContoCorrente conto : conti) {
-            if (conto.numero == nconto) {
-                return Optional.of(conto);
-            }
-        }
-        return Optional.empty();
+        return conti.stream()
+                .filter(v -> v.getNumero() == nconto)
+                .findAny();
+    }
+
+    /*
+    applica interesse a tutti i conti
+     */
+    private void applicaInteresse(double valore) {
+        applica((v) -> true,
+                (v) -> v.saldo += v.saldo * valore);
+    }
+
+    /*
+    applica mora ai conti in rosso
+     */
+    private void applicaMora(double valore) {
+        applica((v) -> v.getSaldo() < 0,
+                (v) -> v.saldo -= v.saldo * valore);
+    }
+
+    private void applica(Predicate<ContoCorrente> p, Consumer<ContoCorrente> f) {
+        conti.stream()
+                .filter(p)
+                .forEach(v -> f.accept(v));
     }
 
     @Override
