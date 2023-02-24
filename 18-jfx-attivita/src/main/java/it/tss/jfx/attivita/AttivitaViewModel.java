@@ -87,6 +87,7 @@ public class AttivitaViewModel {
     }
 
     public void setCurrentAttivita(Attivita currentAttivita) {
+        System.out.println(currentAttivita);
         this.currentAttivita = currentAttivita;
         toUI();
     }
@@ -104,6 +105,15 @@ public class AttivitaViewModel {
         fromUI();
         store.save(currentAttivita);
         updateCurrentInElenco();
+        reset();
+    }
+
+    void delete() {
+        if(currentAttivita==null){
+            return;
+        }
+        store.remove(currentAttivita);
+        elencoAttivita.remove(currentAttivita);
         reset();
     }
 
