@@ -87,7 +87,6 @@ public class AttivitaGestioneViewModel {
     }
 
     public void setCurrentAttivita(Attivita currentAttivita) {
-        System.out.println(currentAttivita);
         this.currentAttivita = currentAttivita;
         toUI();
     }
