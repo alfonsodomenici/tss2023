@@ -18,7 +18,7 @@ import javafx.collections.ObservableList;
  *
  * @author alfonso
  */
-public class AttivitaViewModel {
+public class AttivitaGestioneViewModel {
 
     private AttivitaStore store = AttivitaStore.getInstance();
 
@@ -29,7 +29,7 @@ public class AttivitaViewModel {
     private final IntegerProperty costo = new SimpleIntegerProperty(0);
     private final StringProperty descrizione = new SimpleStringProperty();
 
-    public AttivitaViewModel() {
+    public AttivitaGestioneViewModel() {
         reset();
         elencoAttivita = FXCollections.observableArrayList(store.getAttivita());
     }

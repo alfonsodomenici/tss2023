@@ -4,18 +4,17 @@
  */
 package it.tss.jfx.attivita;
 
+import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.ResourceBundle;
-import java.util.function.UnaryOperator;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Spinner;
@@ -23,7 +22,8 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.util.converter.IntegerStringConverter;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 
 /**
@@ -44,7 +44,7 @@ public class AttivitaGestioneController implements Initializable {
     @FXML
     private ListView<Attivita> lvAttivita;
 
-    private final AttivitaViewModel viewModel = new AttivitaViewModel();
+    private final AttivitaGestioneViewModel viewModel = new AttivitaGestioneViewModel();
 
     /**
      * Initializes the controller class.
@@ -81,13 +81,29 @@ public class AttivitaGestioneController implements Initializable {
         viewModel.delete();
         lvAttivita.getSelectionModel().clearSelection();
     }
-    
+
     private void onSelectedAttivitaChange(ObservableValue<? extends Attivita> obs,
             final Attivita ov, final Attivita nv) {
         if (nv != null) {
             viewModel.setCurrentAttivita(nv);
         }
 
+    }
+
+    @FXML
+    private void onEsci(ActionEvent e) {
+        Platform.exit();
+    }
+
+    @FXML
+    private void onAbout(ActionEvent e) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("about.fxml"));
+        Stage dialog = new Stage();
+        dialog.setTitle("About Gestione Attivita Software");
+        dialog.setScene(new Scene(fxmlLoader.load()));
+        dialog.initOwner(App.getRootStage());
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.showAndWait();
     }
 
     private TextFormatter.Change filterNumbers(TextFormatter.Change change) {
