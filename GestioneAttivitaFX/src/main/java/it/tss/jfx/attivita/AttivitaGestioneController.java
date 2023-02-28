@@ -45,49 +45,36 @@ public class AttivitaGestioneController implements Initializable {
     @FXML
     private ListView<Attivita> lvAttivita;
 
-    private final AttivitaGestioneViewModel viewModel = new AttivitaGestioneViewModel();
+    
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        spDurata.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 60, 0, 15));
-        tfCosto.setTextFormatter(new TextFormatter<>(this::filterNumbers));
-        lvAttivita.getSelectionModel().selectedItemProperty().addListener(this::onSelectedAttivitaChange);
-        initBindigs();
+        
     }
 
-    private void initBindigs() {
-        lvAttivita.setItems(viewModel.getElencoAttivita());
-        dpData.valueProperty().bindBidirectional(viewModel.dataProperty());
-        spDurata.getValueFactory().valueProperty().bindBidirectional(viewModel.durataProperty());
-        Bindings.bindBidirectional(tfCosto.textProperty(), viewModel.costoProperty(), new NumberStringConverter());
-        taDescrizione.textProperty().bindBidirectional(viewModel.descrizioneProperty());
-    }
+    
 
     @FXML
     private void onNuovaAttivita(ActionEvent e) {
-        viewModel.reset();
-        lvAttivita.getSelectionModel().clearSelection();
+        
     }
 
     @FXML
     private void onSalvaAttivita(ActionEvent e) {
-        viewModel.save();
+        
     }
 
     @FXML
     private void onEliminaAttivita(ActionEvent e) {
-        viewModel.delete();
-        lvAttivita.getSelectionModel().clearSelection();
+        
     }
 
     private void onSelectedAttivitaChange(ObservableValue<? extends Attivita> obs,
             final Attivita ov, final Attivita nv) {
-        if (nv != null) {
-            viewModel.setCurrentAttivita(nv);
-        }
+        
 
     }
 
@@ -98,22 +85,8 @@ public class AttivitaGestioneController implements Initializable {
 
     @FXML
     private void onAbout(ActionEvent e) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("about.fxml"));
-        Stage dialog = new Stage();
-        dialog.setTitle("About Gestione Attivita Software");
-        dialog.setScene(new Scene(fxmlLoader.load()));
-        dialog.initOwner(App.getRootStage());
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.showAndWait();
+        
     }
 
-    private TextFormatter.Change filterNumbers(TextFormatter.Change change) {
-        String text = change.getText();
-
-        if (text.matches("[0-9]*")) {
-            return change;
-        }
-
-        return null;
-    }
+    
 }
