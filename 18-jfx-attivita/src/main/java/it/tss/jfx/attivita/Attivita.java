@@ -5,6 +5,8 @@
 package it.tss.jfx.attivita;
 
 import java.time.LocalDate;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.PastOrPresent;
 
 /**
  *
@@ -12,7 +14,9 @@ import java.time.LocalDate;
  */
 public class Attivita extends AbstractEntity {
 
+    @PastOrPresent
     private LocalDate data;
+    @Min(1)
     private int durata; //minuti
     private String descrizione;
     private int costo;

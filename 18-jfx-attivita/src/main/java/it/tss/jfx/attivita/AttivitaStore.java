@@ -7,6 +7,12 @@ package it.tss.jfx.attivita;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 /**
  *
@@ -34,6 +40,13 @@ public class AttivitaStore {
     }
 
     public void save(Attivita e) {
+        ValidatorFactory vf = Validation.buildDefaultValidatorFactory();
+        Validator v = vf.getValidator();
+        Set<ConstraintViolation<Attivita>> validate = v.validate(e);
+        if(!validate.isEmpty()){
+            System.out.println(validate);
+            return;
+        }
         int idx = elenco.indexOf(e);
         if (idx == -1) {
             elenco.add(e);

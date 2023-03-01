@@ -55,6 +55,8 @@ public class AttivitaGestioneController implements Initializable {
         spDurata.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 60, 0, 15));
         tfCosto.setTextFormatter(new TextFormatter<>(this::filterNumbers));
         lvAttivita.getSelectionModel().selectedItemProperty().addListener(this::onSelectedAttivitaChange);
+        lvAttivita.setCellFactory(lv -> new AttivitaCell());
+        
         initBindigs();
     }
 

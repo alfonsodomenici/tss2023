@@ -69,6 +69,7 @@ public class AttivitaGestioneController implements Initializable {
                 .selectedItemProperty()
                 .addListener(this::onSelectedAttivitaChange);
         btnElimina.setDisable(true);
+        lvAttivita.setCellFactory(lv -> new AttivitaListCell());
         initBindings();
     }
 
@@ -127,7 +128,7 @@ public class AttivitaGestioneController implements Initializable {
     private void onEliminaAttivita(ActionEvent e) {
         Optional<ButtonType> result = Messages.showConfirmMessage(
                 "Elimina attivita",
-                "Sei sicuro di voler eliminare le modifiche all'Attività?");
+                "Sei sicuro di voler eliminare l'Attività selezionata?");
         if (result.isEmpty()
                 || result.get().getButtonData().isCancelButton()) {
             return;
