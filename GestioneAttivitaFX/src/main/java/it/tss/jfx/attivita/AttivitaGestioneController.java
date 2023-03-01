@@ -6,6 +6,7 @@ package it.tss.jfx.attivita;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -15,8 +16,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -34,6 +38,10 @@ import javafx.util.converter.NumberStringConverter;
  */
 public class AttivitaGestioneController implements Initializable {
 
+    @FXML
+    private Label leftStatus;
+    @FXML
+    private Button btnElimina;
     @FXML
     private DatePicker dpData;
     @FXML
@@ -60,6 +68,7 @@ public class AttivitaGestioneController implements Initializable {
         lvAttivita.getSelectionModel()
                 .selectedItemProperty()
                 .addListener(this::onSelectedAttivitaChange);
+        btnElimina.setDisable(true);
         initBindings();
     }
 
@@ -87,8 +96,10 @@ public class AttivitaGestioneController implements Initializable {
             ObservableValue<? extends Attivita> obs,
             Attivita ov,
             Attivita nv) {
+        btnElimina.setDisable(nv == null);
         if (nv != null) {
             viewModel.setCurrentAttivita(nv);
+            leftStatus.setText("in modifica attivita...");
         }
     }
 
@@ -96,18 +107,34 @@ public class AttivitaGestioneController implements Initializable {
     private void onNuovaAttivita(ActionEvent e) {
         viewModel.reset();
         lvAttivita.getSelectionModel().clearSelection();
+        leftStatus.setText("nuova attivita...");
     }
 
     @FXML
     private void onSalvaAttivita(ActionEvent e) {
+        Optional<ButtonType> result = Messages.showConfirmMessage("Salva attivita",
+                "Sei sicuro di voler salvare le modifche all'Attività?");
+        if (result.isEmpty()
+                || result.get().getButtonData().isCancelButton()) {
+            return;
+        }
         viewModel.save();
         viewModel.reset();
+        leftStatus.setText("attivita salvata...");
     }
 
     @FXML
     private void onEliminaAttivita(ActionEvent e) {
+        Optional<ButtonType> result = Messages.showConfirmMessage(
+                "Elimina attivita",
+                "Sei sicuro di voler eliminare le modifiche all'Attività?");
+        if (result.isEmpty()
+                || result.get().getButtonData().isCancelButton()) {
+            return;
+        }
         viewModel.delete();
         lvAttivita.getSelectionModel().clearSelection();
+        leftStatus.setText("attivita eliminata...");
     }
 
     @FXML
