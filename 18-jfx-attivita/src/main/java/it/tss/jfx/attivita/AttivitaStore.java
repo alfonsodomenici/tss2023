@@ -39,7 +39,7 @@ public class AttivitaStore {
         return Collections.unmodifiableList(elenco);
     }
 
-    public void save(Attivita e) {
+    public void save(@Valid Attivita e) {
         ValidatorFactory vf = Validation.buildDefaultValidatorFactory();
         Validator v = vf.getValidator();
         Set<ConstraintViolation<Attivita>> validate = v.validate(e);
