@@ -4,13 +4,16 @@
  */
 package it.tss.jfx.attivita;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import javax.persistence.Entity;
 
 /**
  *
  * @author alfonso
  */
-public class Attivita extends AbstractEntity {
+@Entity
+public class Attivita extends AbstractEntity implements Serializable{
 
     private LocalDate data;
     private int durata; //minuti

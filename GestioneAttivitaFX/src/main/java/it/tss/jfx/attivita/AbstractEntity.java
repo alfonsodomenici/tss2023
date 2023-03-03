@@ -6,30 +6,49 @@ package it.tss.jfx.attivita;
 
 import java.util.Objects;
 import java.util.UUID;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
 
 /**
  *
  * @author alfonso
  */
+@MappedSuperclass
 public abstract class AbstractEntity {
 
-    private final String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    public AbstractEntity() {
-        id = UUID.randomUUID().toString();
-    }
+    @Version
+    private Long version; //da spiegare
 
     /*
     getters / setters
      */
-    public String getId() {
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 37 * hash + Objects.hashCode(this.id);
+        int hash = 5;
+        hash = 31 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -50,7 +69,7 @@ public abstract class AbstractEntity {
 
     @Override
     public String toString() {
-        return "id=" + id + '}';
+        return  "id=" + id + ", version=" + version + '}';
     }
 
 }

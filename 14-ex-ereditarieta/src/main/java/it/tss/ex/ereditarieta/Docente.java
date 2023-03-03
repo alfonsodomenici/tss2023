@@ -21,8 +21,8 @@ public class Docente extends Persona {
      * @param cognome non vuoto
      * @param cf  non vuoto
      */
-    public Docente( String nome, String cognome, String cf,String materia, double salario) {
-        super(nome, cognome, cf);
+    public Docente( String nome, String cognome, String cf,String materia, double salario, Sesso sesso) {
+        super(nome, cognome, cf,sesso);
         if(CheckParamsHelper.isNotValuedString(materia) ||
                 CheckParamsHelper.isNotPositiveValued(salario)){
             throw new IllegalArgumentException("uno o più parametri non validi");

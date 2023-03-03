@@ -6,10 +6,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 public class Messages {
-
+    
     private static final String TITOLO = "Gestione Attivita Message";
 
     private Messages() {
+        
     }
 
     public static Optional<ButtonType> showConfirmMessage(String header, 
@@ -26,6 +27,14 @@ public class Messages {
         alert.setTitle(TITOLO);
         alert.setHeaderText(header);
         alert.setContentText(content);
+        alert.showAndWait();
+    }
+    
+    public static void showInfoSuccessMessage() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(TITOLO);
+        alert.setHeaderText(TITOLO);
+        alert.setContentText("Operazione eseguita con successo.");
         alert.showAndWait();
     }
 }

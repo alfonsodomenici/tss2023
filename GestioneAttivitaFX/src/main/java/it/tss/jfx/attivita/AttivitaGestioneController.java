@@ -115,13 +115,20 @@ public class AttivitaGestioneController implements Initializable {
     private void onSalvaAttivita(ActionEvent e) {
         Optional<ButtonType> result = Messages.showConfirmMessage("Salva attivita",
                 "Sei sicuro di voler salvare le modifche all'Attività?");
-        if (result.isEmpty()
-                || result.get().getButtonData().isCancelButton()) {
+        if(result.isEmpty()){
+            return;
+        }
+        
+        ButtonType bottonePremuto = result.get();
+        
+        if(bottonePremuto.getButtonData().isCancelButton()){
             return;
         }
         viewModel.save();
         viewModel.reset();
         leftStatus.setText("attivita salvata...");
+        
+        Messages.showInfoSuccessMessage();
     }
 
     @FXML

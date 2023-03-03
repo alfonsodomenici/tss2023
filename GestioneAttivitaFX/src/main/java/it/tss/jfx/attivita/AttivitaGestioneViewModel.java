@@ -21,8 +21,8 @@ import javafx.collections.ObservableList;
 public class AttivitaGestioneViewModel {
 
     private Attivita currentAttivita;
-    private AttivitaInMemoryStore store
-            = AttivitaInMemoryStore.getInstance();
+    private AttivitaStore store
+            = AttivitaStore.getInstance();
     private final ObjectProperty<LocalDate> data = new SimpleObjectProperty<>();
     private final ObjectProperty<Integer> durata = new SimpleObjectProperty<>();
     private final IntegerProperty costo = new SimpleIntegerProperty();
@@ -32,7 +32,7 @@ public class AttivitaGestioneViewModel {
     public AttivitaGestioneViewModel() {
 
         elencoAttivita = FXCollections
-                .observableArrayList(store.getAttivita());
+                .observableArrayList(store.all());
         data.addListener((obs, ov, nv)
                 -> currentAttivita.setData(nv));
         durata.addListener((obs, ov, nv)
@@ -58,7 +58,7 @@ public class AttivitaGestioneViewModel {
 
     public void updateElencoAttivita() {
         elencoAttivita.clear();
-        elencoAttivita.addAll(store.getAttivita());
+        elencoAttivita.addAll(store.all());
     }
 
     public void reset() {

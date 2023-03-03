@@ -29,6 +29,11 @@ public class ProvaListPersone {
     private static ElencoPersone elenco = new ElencoPersone();
 
     public static void main(String[] args) {
+        
+        Persona persona = new Persona("maria", "verdi", "xxx", Sesso.FEMMINA);
+        
+        System.out.println(persona);
+        
         int azione;
         do {
             azione = menu();
@@ -84,7 +89,8 @@ public class ProvaListPersone {
         return new Persona(
                 inputString("nome?"),
                 inputString("cognome?"),
-                inputString("codice fiscale?")
+                inputString("codice fiscale?"),
+                Sesso.FEMMINA
         );
     }
 
@@ -94,7 +100,8 @@ public class ProvaListPersone {
                 inputString("cognome?"),
                 inputString("codice fiscale?"),
                 inputString("matricola?"),
-                inputString("università?")
+                inputString("università?"),
+                Sesso.MASCHIO
         );
     }
 
@@ -104,7 +111,8 @@ public class ProvaListPersone {
                 inputString("cognome?"),
                 inputString("codice fiscale?"),
                 inputString("materia?"),
-                inputDouble("salario?")
+                inputDouble("salario?"),
+                Sesso.FEMMINA
         );
     }
 

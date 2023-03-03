@@ -20,8 +20,8 @@ public class Studente extends Persona {
      * @param cognome non vuoto
      * @param cf non vuoto
      */
-    public Studente(String nome, String cognome, String cf, String matricola, String universita) {
-        super(nome, cognome, cf);
+    public Studente(String nome, String cognome, String cf, String matricola, String universita, Sesso sesso) {
+        super(nome, cognome, cf, sesso);
         if (CheckParamsHelper.isAnyNotValuedString(matricola, universita)) {
             throw new IllegalArgumentException("uno o più parametri vuoti");
         }

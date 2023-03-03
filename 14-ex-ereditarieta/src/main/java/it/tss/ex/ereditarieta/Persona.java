@@ -14,19 +14,21 @@ public class Persona {
 
     private final String nome, cognome, cf;
 
+    private final Sesso sesso;
     /**
      * 
      * @param nome non vuoto
      * @param cognome non vuoto
      * @param cf non vuoto 
      */
-    public Persona(String nome, String cognome, String cf) {
+    public Persona(String nome, String cognome, String cf, Sesso sesso) {
         if (CheckParamsHelper.isAnyNotValuedString(nome, cognome, cf)) {
             throw new IllegalArgumentException("uno o più parametri vuoti");
         }
         this.nome = nome;
         this.cognome = cognome;
         this.cf = cf;
+        this.sesso = sesso;
     }
 
     /*
@@ -44,6 +46,11 @@ public class Persona {
         return cf;
     }
 
+    public Sesso getSesso() {
+        return sesso;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -68,7 +75,9 @@ public class Persona {
 
     @Override
     public String toString() {
-        return "{" + "nome=" + nome + ", cognome=" + cognome + ", cf=" + cf+ '}';
+        return "Persona{" + "nome=" + nome + ", cognome=" + cognome + ", cf=" + cf + ", sesso=" + sesso + '}';
     }
+
+    
 
 }
