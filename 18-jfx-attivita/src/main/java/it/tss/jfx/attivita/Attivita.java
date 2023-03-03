@@ -4,7 +4,10 @@
  */
 package it.tss.jfx.attivita;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.PastOrPresent;
 
@@ -12,7 +15,9 @@ import javax.validation.constraints.PastOrPresent;
  *
  * @author alfonso
  */
-public class Attivita extends AbstractEntity {
+@Entity
+@Table(name = "attivita")
+public class Attivita  extends AbstractEntity implements Serializable {
 
     @PastOrPresent
     private LocalDate data;
