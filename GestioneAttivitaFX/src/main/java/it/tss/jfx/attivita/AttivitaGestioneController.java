@@ -30,6 +30,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
+import javax.validation.ConstraintViolationException;
 
 /**
  * FXML Controller class
@@ -115,20 +116,24 @@ public class AttivitaGestioneController implements Initializable {
     private void onSalvaAttivita(ActionEvent e) {
         Optional<ButtonType> result = Messages.showConfirmMessage("Salva attivita",
                 "Sei sicuro di voler salvare le modifche all'Attività?");
-        if(result.isEmpty()){
+        if (result.isEmpty()) {
             return;
         }
-        
+
         ButtonType bottonePremuto = result.get();
-        
-        if(bottonePremuto.getButtonData().isCancelButton()){
+
+        if (bottonePremuto.getButtonData().isCancelButton()) {
             return;
         }
-        viewModel.save();
-        viewModel.reset();
-        leftStatus.setText("attivita salvata...");
-        
-        Messages.showInfoSuccessMessage();
+        try {
+            viewModel.save();
+            viewModel.reset();
+            leftStatus.setText("attivita salvata...");
+            Messages.showInfoSuccessMessage();
+        }catch(RuntimeException ex){
+            Messages.showErrorMessage("Si è verificato un errore durante il salvataggio dell'Attività",
+                    ex.getMessage());
+        }
     }
 
     @FXML

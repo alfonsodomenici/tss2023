@@ -30,6 +30,14 @@ public class Messages {
         alert.showAndWait();
     }
     
+    public static void showErrorMessage(String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(TITOLO);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+    
     public static void showInfoSuccessMessage() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(TITOLO);
