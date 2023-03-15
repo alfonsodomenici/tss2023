@@ -18,6 +18,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
@@ -26,9 +28,17 @@ import javax.validation.constraints.PastOrPresent;
  *
  * @author ospite
  */
+
+
+@NamedQueries({
+    @NamedQuery(name = Libro.FIND_BY_AUTHOR,
+            query = "select e from Libro e where e.autore.cognome= :pcognome"),
+    
+})
 @Entity
 public class Libro implements Serializable {
-
+    
+    public final static String FIND_BY_AUTHOR = "Libro.findByAutore";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -7,6 +7,9 @@ package it.tss.libreria;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -16,7 +19,10 @@ import javax.persistence.Persistence;
  * @author ospite
  */
 public class Store {
-
+    
+    private static System.Logger log = 
+            System.getLogger( Store.class.getName());
+    
     private static EntityManager em;
 
     static {
@@ -26,6 +32,7 @@ public class Store {
     
     public static <T> T save(T e){
         
+        log.log(System.Logger.Level.INFO, "begin save...");
         em.getTransaction().begin();
         final T saved = em.merge(e);
         em.getTransaction().commit();
@@ -43,7 +50,7 @@ public class Store {
     }
     
     public static List<Libro> libriByAutore(String cognome){
-        return em.createQuery("select e from Libro e where e.autore.cognome= :pcognome")
+        return em.createNamedQuery(Libro.FIND_BY_AUTHOR)
                 .setParameter("pcognome", cognome)
                 .getResultList();
     }
