@@ -11,14 +11,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotBlank;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
  * @author ospite
  */
+@NamedQueries({
+    @NamedQuery(name = Autore.FIND_BY_NOME_COGNOME,
+            query = "select e from Autore e where e.nome= :pnome and e.cognome= :pcognome"),})
 @Entity
 public class Autore implements Serializable {
+
+    public final static String FIND_BY_NOME_COGNOME = "Autore.findByNomeCognome";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -100,5 +108,4 @@ public class Autore implements Serializable {
         return "Autore{" + "id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", nazionalita=" + nazionalita + '}';
     }
 
-    
 }

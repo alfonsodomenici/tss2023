@@ -17,6 +17,7 @@ import javax.validation.constraints.NotBlank;
  *
  * @author ospite
  */
+
 @Entity
 public class Autore implements Serializable {
 

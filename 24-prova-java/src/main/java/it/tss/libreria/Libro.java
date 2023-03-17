@@ -23,6 +23,7 @@ import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -31,14 +32,15 @@ import javax.validation.constraints.PastOrPresent;
 
 
 @NamedQueries({
-    @NamedQuery(name = Libro.FIND_BY_AUTHOR,
-            query = "select e from Libro e where e.autore.cognome= :pcognome"),
+    @NamedQuery(name = Libro.FIND_BY_TITOLO,
+            query = "select e from Libro e where e.titolo like :ptitolo"),
     
 })
 @Entity
 public class Libro implements Serializable {
+   
+    public final static String FIND_BY_TITOLO = "Libro.findByTitolo";
     
-    public final static String FIND_BY_AUTHOR = "Libro.findByAutore";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -61,10 +63,9 @@ public class Libro implements Serializable {
     public Libro() {
     }
 
-    public Libro(String titolo, LocalDate dataPubblicazione, Autore autore) {
+    public Libro(String titolo, LocalDate dataPubblicazione) {
         this.titolo = titolo;
         this.dataPubblicazione = dataPubblicazione;
-        this.autore = autore;
     }
 
     public Long getId() {

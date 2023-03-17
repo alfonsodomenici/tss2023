@@ -11,16 +11,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
  * @author ospite
  */
+@NamedQueries({
+    @NamedQuery(name = Categoria.FIND_BY_NOME,
+            query = "select e from Categoria e where e.nome= :pnome"),
+    
+})
 @Entity
 public class Categoria implements Serializable {
 
+    public final static String FIND_BY_NOME = "Categoria.findByNome";
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
