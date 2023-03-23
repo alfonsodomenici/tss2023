@@ -28,7 +28,7 @@ public class LibriResource {
     Store store;
     
     @GET
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_JSON)
     public List<Libro> all(){
         return store.allLibri();
     }

@@ -3,6 +3,13 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
    version="4.0">
+    <data-source>
+        <name>java:global/jdbc/ds</name>
+        <class-name>org.mariadb.jdbc.MariaDbDataSource</class-name>
+        <url>jdbc:mariadb://localhost:3306/messaggi</url>
+        <user>ospite</user>
+        <password>ospite</password>
+    </data-source>
     <session-config>
         <session-timeout>
             30

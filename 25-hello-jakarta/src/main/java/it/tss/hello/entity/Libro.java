@@ -41,7 +41,6 @@ import javax.xml.bind.annotation.XmlTransient;
     
     
 })
-@XmlRootElement
 @Entity
 public class Libro implements Serializable {
     
@@ -65,7 +64,6 @@ public class Libro implements Serializable {
     @ManyToOne(optional = false,fetch = FetchType.EAGER)
     private Autore autore;
 
-    @XmlTransient
     @JsonbTransient
     @ManyToMany()
     private Set<Categoria> categorie = new HashSet<>();
