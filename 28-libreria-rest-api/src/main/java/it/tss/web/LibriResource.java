@@ -11,6 +11,7 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.stream.JsonCollectors;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
@@ -32,13 +33,20 @@ public class LibriResource {
     @Inject
     LibroStore store;
 
+    @Inject
+    AutoreStore autoreStore;
+
+    @Inject
+    CategoriaStore categoriaStore;
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public JsonArray all() {
-        return store.all()
-                .stream()
-                .map(Libro::toJsonSlice)
-                .collect(JsonCollectors.toJsonArray());
+    public List<Libro> all() {
+        return store.all();
+//        return store.all()
+//                .stream()
+//                .map(Libro::toJsonSlice)
+//                .collect(JsonCollectors.toJsonArray());
     }
 
     @GET
@@ -51,11 +59,9 @@ public class LibriResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Libro create(JsonObject json) {
-
-        int aInt = json.getInt("autore_id");
-        System.out.println(json);
-        return null;
-        //return store.save(e);
+    public Libro create(Libro libro) {
+        libro.setAutore(autoreStore.findOrSave(libro.getAutore()));
+        libro.setCategorie(categoriaStore.findOrSave(libro.getCategorie()));
+        return store.save(libro);
     }
 }

@@ -4,25 +4,18 @@
  */
 package it.tss.web;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Objects;
+import java.util.List;
 import java.util.Set;
-import javax.enterprise.context.Dependent;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.bind.annotation.JsonbProperty;
-import javax.json.bind.annotation.JsonbTransient;
 import javax.json.bind.annotation.JsonbTypeAdapter;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -51,19 +44,20 @@ public class Libro extends AbstractEntity {
     @Column(nullable = false)
     private String titolo;
 
-    @JsonbProperty(value = "data-pubblicazione")
+    @NotNull
+    @JsonbProperty(value = "data_pubblicazione")
     @PastOrPresent
     @Column(name = "data_pubblicazione")
     private LocalDate dataPubblicazione;
 
-    @JsonbTypeAdapter(AutoreLinkAdapter.class)
+    //@JsonbTypeAdapter(AutoreLinkAdapter.class)
     @NotNull
     @ManyToOne(optional = false)
     private Autore autore;
 
-    @JsonbTypeAdapter(CategoriaLinkAdapter.class)
+    //@JsonbTypeAdapter(CategoriaLinkAdapter.class)
     @ManyToMany(fetch = FetchType.EAGER )
-    private Set<Categoria> categorie = new HashSet<>();
+    private List<Categoria> categorie = new ArrayList<>();
 
     public Libro() {
     }
@@ -105,11 +99,11 @@ public class Libro extends AbstractEntity {
         this.autore = autore;
     }
 
-    public Set<Categoria> getCategorie() {
+    public List<Categoria> getCategorie() {
         return categorie;
     }
 
-    public void setCategorie(Set<Categoria> categorie) {
+    public void setCategorie(List<Categoria> categorie) {
         this.categorie = categorie;
     }
 
