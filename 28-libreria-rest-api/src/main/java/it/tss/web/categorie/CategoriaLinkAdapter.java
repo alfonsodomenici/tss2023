@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package it.tss.web;
+package it.tss.web.categorie;
 
 import java.math.BigDecimal;
 import java.util.HashSet;

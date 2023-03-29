@@ -2,8 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package it.tss.web;
+package it.tss.web.libri;
 
+import it.tss.web.AbstractEntity;
+import it.tss.web.categorie.Categoria;
+import it.tss.web.autori.Autore;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,7 +35,7 @@ import javax.validation.constraints.PastOrPresent;
     @NamedQuery(name = Libro.FIND_BY_AUTHOR,
             query = "select e from Libro e where e.autore.cognome= :pcognome"),
     @NamedQuery(name = Libro.FIND_ALL,
-            query = "select e from Libro e order by e.dataPubblicazione desc")
+            query = "select e from Libro e join fetch e.categorie order by e.dataPubblicazione desc")
 })
 @Entity
 public class Libro extends AbstractEntity {
@@ -56,7 +59,7 @@ public class Libro extends AbstractEntity {
     private Autore autore;
 
     //@JsonbTypeAdapter(CategoriaLinkAdapter.class)
-    @ManyToMany(fetch = FetchType.EAGER )
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Categoria> categorie = new ArrayList<>();
 
     public Libro() {

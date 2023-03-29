@@ -11,17 +11,18 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.ws.rs.NotFoundException;
 
 /**
  *
  * @author ospite
  * @param <T>
  */
-
 public class AbstractStore<T extends AbstractEntity> {
+
     @PersistenceContext
     protected EntityManager em;
-    
+
     protected Class<T> entityClass;
 
     @PostConstruct
@@ -35,7 +36,10 @@ public class AbstractStore<T extends AbstractEntity> {
     }
 
     public void remove(Long id) {
-        em.remove(findById(id));
+        em.remove(
+                findById(id)
+                        .orElseThrow(() -> new NotFoundException())
+        );
     }
 
     public Optional<T> findById(Long id) {

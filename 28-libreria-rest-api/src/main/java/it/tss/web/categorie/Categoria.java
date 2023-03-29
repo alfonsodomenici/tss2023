@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package it.tss.web;
+package it.tss.web.categorie;
 
+import it.tss.web.AbstractEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -15,6 +16,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 
@@ -22,8 +25,14 @@ import javax.validation.constraints.NotBlank;
  *
  * @author ospite
  */
+@NamedQueries({
+    @NamedQuery(name = Categoria.FIND_ALL,
+            query = "select e from Categoria e order by e.nome")
+})
 @Entity
 public class Categoria extends AbstractEntity {
+
+    public final static String FIND_ALL = "Categoria.findAll";
 
     @NotBlank
     @Column(unique = true)
