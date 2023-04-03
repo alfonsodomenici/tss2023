@@ -11,10 +11,11 @@ import javax.validation.constraints.NotBlank;
 public class Sala extends AbstractEntity {
     
     @NotBlank
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     String nome;
 
     @Min(0)
+    @Column(nullable = false)
     int posti;
 
     public Sala() {
@@ -23,6 +24,19 @@ public class Sala extends AbstractEntity {
         this.nome = nome;
         this.posti = posti;
     }
+    public String getNome() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    public int getPosti() {
+        return posti;
+    }
+    public void setPosti(int posti) {
+        this.posti = posti;
+    }
 
+    
     
 }

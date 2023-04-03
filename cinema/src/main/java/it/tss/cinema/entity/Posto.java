@@ -1,25 +1,37 @@
 package it.tss.cinema.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "disponibilita")
-public class Disponibilita extends AbstractEntity {
+@Table(name = "posto",
+    uniqueConstraints = {@UniqueConstraint(columnNames = {"proiezione_id","sala_id"})})
+public class Posto extends AbstractEntity {
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "proiezione_id")
     Proiezione proiezione;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "sala_id")
     Sala sala;
 
+    @Min(0)
+    @Column(nullable = false)
     int disponibilita;
 
-    public Disponibilita() {
+    public Posto() {
     }
 
-    public Disponibilita(Proiezione proiezione, Sala sala, int disponibilita) {
+    public Posto(Proiezione proiezione, Sala sala, int disponibilita) {
         this.proiezione = proiezione;
         this.sala = sala;
         this.disponibilita = disponibilita;

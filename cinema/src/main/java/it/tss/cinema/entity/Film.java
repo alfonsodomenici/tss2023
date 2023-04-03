@@ -30,6 +30,7 @@ public class Film extends AbstractEntity {
     String regista;
 
     @JsonbProperty("eta_minima")
+    @Column(name = "eta_minima", nullable = false)
     @Min(0)
     int etaMinima;
 
