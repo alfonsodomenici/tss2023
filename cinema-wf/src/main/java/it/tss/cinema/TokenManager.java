@@ -6,6 +6,7 @@ package it.tss.cinema;
 
 import io.smallrye.jwt.build.Jwt;
 import it.tss.cinema.entity.Utente;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashSet;
 import javax.inject.Inject;
@@ -28,6 +29,7 @@ public class TokenManager {
                 .upn(e.getUsr())
                 .groups(new HashSet<>(Arrays.asList(e.getRuolo().name())))
                 .claim(Claims.birthdate.name(), e.getDataNascita().toString())
+                .expiresIn(Duration.ofMinutes(60))
                 .sign();
         return token;
     }
