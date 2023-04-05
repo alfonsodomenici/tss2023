@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "biglietto",
-    uniqueConstraints = {@UniqueConstraint(columnNames = {"posto_id","utente_id","tipo"})})
+    uniqueConstraints = {@UniqueConstraint(columnNames = {"proiezione_id","utente_id","tipo"})})
 public class Biglietto extends AbstractEntity{
     public static enum Tipo{
         INTERO(0),RIDOTTO(30),OMAGGIO(100);
@@ -31,8 +31,8 @@ public class Biglietto extends AbstractEntity{
     
     @NotNull
     @ManyToOne(optional = false)
-    @JoinColumn(name = "posto_id")
-    Posto posto;
+    @JoinColumn(name = "proiezione_id")
+    Proiezione proiezione;
 
     @NotNull
     @ManyToOne(optional = false)
@@ -50,19 +50,19 @@ public class Biglietto extends AbstractEntity{
     public Biglietto() {
     }
 
-    public Biglietto(Posto posto, Utente utente, Tipo tipo, @Min(1) int quantita) {
-        this.posto = posto;
+    public Biglietto(Proiezione proiezione, Utente utente, Tipo tipo, @Min(1) int quantita) {
+        this.proiezione = proiezione;
         this.utente = utente;
         this.tipo = tipo;
         this.quantita = quantita;
     }
 
-    public Posto getPosto() {
-        return posto;
+    public Proiezione getProiezione() {
+        return proiezione;
     }
 
-    public void setPosto(Posto posto) {
-        this.posto = posto;
+    public void setProiezione(Proiezione proiezione) {
+        this.proiezione = proiezione;
     }
 
     public Utente getUtente() {

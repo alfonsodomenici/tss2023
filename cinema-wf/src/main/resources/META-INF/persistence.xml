@@ -4,7 +4,7 @@
     <persistence-unit name="pu" transaction-type="JTA">
         <jta-data-source>java:global/jdbc/ds</jta-data-source>
         <properties>
-            <property name="javax.persistence.schema-generation.database.action" value="none"/>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDB103Dialect"></property>
             <!--
             <property name="javax.persistence.schema-generation.scripts.action" value="create"/>
