@@ -11,15 +11,13 @@ import javax.validation.constraints.NotBlank;
 
 @NamedQueries({
         @NamedQuery(name = Film.FIND_ALL, query = "select e from Film e order by e.titolo"),
-        @NamedQuery(name = Film.FIND_BY_SEARCH, 
-        query = "select e from Film e where e.titolo like :search or e.descrizione like :search or e.regista like :search order by e.titolo"),
 })
+
 @Entity
 @Table(name = "film")
 public class Film extends AbstractEntity {
 
     public static final String FIND_ALL = "Film.findAll";
-    public static final String FIND_BY_SEARCH = "Film.findBySearch";
 
     @NotBlank
     @Column(nullable = false)

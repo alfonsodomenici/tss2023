@@ -7,16 +7,30 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 
+@NamedQueries({
+    @NamedQuery(name = Programmazione.FIND_ALL, query = "select e from Programmazione e order by e.il"),
+    @NamedQuery(name = Programmazione.FIND_BY_DATA,
+            query = "select e from Programmazione e where e.il >= :data order by e.il"),
+    @NamedQuery(name = Programmazione.FIND_BY_FILM,
+            query = "select e from Programmazione e where e.film.id= :film_id")
+})
 @Entity
-@Table(name = "programmazione", 
-    uniqueConstraints = {@UniqueConstraint(columnNames = {"film_id","il"} )})
+@Table(name = "programmazione",
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"film_id", "il"})})
 public class Programmazione extends AbstractEntity {
-    
+
+    public static final String FIND_ALL = "Programmazione.findAll";
+    public static final String FIND_BY_DATA = "Programmazione.findByData";
+    public static final String FIND_BY_FILM = "Programmazione.findByFilm";
+
     @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "film_id")
@@ -28,7 +42,7 @@ public class Programmazione extends AbstractEntity {
     LocalDate il;
 
     @NotNull
-    @Column(precision = 4, scale = 2,nullable = false)
+    @Column(precision = 4, scale = 2, nullable = false)
     BigDecimal prezzo;
 
     public Programmazione() {
@@ -58,5 +72,4 @@ public class Programmazione extends AbstractEntity {
         this.prezzo = prezzo;
     }
 
-    
 }

@@ -19,6 +19,8 @@ import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.ws.rs.ForbiddenException;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.core.Response;
 
 @DenyAll
@@ -31,7 +33,7 @@ public class UtentiResource {
 
     @Inject
     TokenManager tokenManager;
-    
+
     @PermitAll
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -43,17 +45,36 @@ public class UtentiResource {
     @PermitAll
     @POST
     @Path("login")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response login(@FormParam("username") String usr,
-            @FormParam("password") String pwd) {
-        Utente found = store.findByUsrAndPwd(usr, pwd)
-                .orElseThrow(() -> new NotFoundException());
+    public Response login(JsonObject credential) {
+        if(!credential.containsKey("usr") || !credential.containsKey("pwd")){
+            throw new ForbiddenException();
+        }
+        Utente found = store.findByUsrAndPwd(
+                credential.getString("usr"),
+                credential.getString("pwd"))
+                .orElseThrow(() -> new ForbiddenException());
         String jwt = tokenManager.generate(found);
         JsonObject json = Json.createObjectBuilder()
                 .add("jwt", jwt)
                 .build();
         return Response.ok(json).build();
     }
-    
+
+    @POST
+    @Path("loginform")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response loginForm(@FormParam("username") String usr,
+            @FormParam("password") String pwd) {
+        Utente found = store.findByUsrAndPwd(usr, pwd)
+                .orElseThrow(() -> new ForbiddenException());
+        String jwt = tokenManager.generate(found);
+        JsonObject json = Json.createObjectBuilder()
+                .add("jwt", jwt)
+                .build();
+        return Response.ok(json).build();
+    }
+
 }

@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 
 import it.tss.cinema.Control;
 import it.tss.cinema.entity.Film;
+import java.util.List;
 
 @Control
 public class FilmStore extends AbstractStore<Film> {
@@ -19,11 +20,9 @@ public class FilmStore extends AbstractStore<Film> {
     @PersistenceContext
     EntityManager em;
 
-    public Stream<Film> search(String search) {
-        return (search == null || search.isBlank()) ? em.createNamedQuery(Film.FIND_ALL, Film.class).getResultStream()
-                : em.createNamedQuery(Film.FIND_BY_SEARCH, Film.class)
-                        .setParameter("search", search)
-                        .getResultStream();
+    public List<Film> all() {
+        return  em.createNamedQuery(Film.FIND_ALL, Film.class)
+                .getResultList();
     }
 
 }

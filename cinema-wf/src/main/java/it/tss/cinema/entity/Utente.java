@@ -1,8 +1,10 @@
 package it.tss.cinema.entity;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,7 +18,7 @@ import javax.validation.constraints.PastOrPresent;
 
 @NamedQueries({
     @NamedQuery(name = Utente.FIND_BY_USR_PWD,
-    query = "select e from Utente e where e.usr= :usr and e.pwd= :pwd")
+            query = "select e from Utente e where e.usr= :usr and e.pwd= :pwd")
 })
 
 @Entity
@@ -25,12 +27,12 @@ public class Utente extends AbstractEntity {
 
     public static final String FIND_BY_USR_PWD = "Utente.findByUsrPwd";
 
-    public static enum Ruolo{
-        USER,ADMIN
+    public static enum Ruolo {
+        USER, ADMIN
     }
 
     @NotBlank
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     String usr;
 
     @NotBlank
@@ -59,6 +61,11 @@ public class Utente extends AbstractEntity {
         this.dataNascita = dataNascita;
     }
 
+    public long eta() {
+        return dataNascita == null ? 0
+                : ChronoUnit.YEARS.between(dataNascita, LocalDate.now());
+    }
+
     public String getUsr() {
         return usr;
     }
@@ -67,6 +74,7 @@ public class Utente extends AbstractEntity {
         this.usr = usr;
     }
 
+    @JsonbTransient
     public String getPwd() {
         return pwd;
     }
@@ -90,9 +98,5 @@ public class Utente extends AbstractEntity {
     public void setDataNascita(LocalDate dataNascita) {
         this.dataNascita = dataNascita;
     }
-
-    
-
-    
 
 }
