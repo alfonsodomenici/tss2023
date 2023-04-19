@@ -1,5 +1,17 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from './stores/auth.js';
+
+const authStore = useAuthStore();
+const { isLogged } = storeToRefs(authStore);
+
+const router = useRouter();
+
+const onLogout = (e) => {
+  authStore.doLogout();
+  router.push("/")
+}
 </script>
 
 <template>
@@ -7,7 +19,14 @@ import { RouterLink, RouterView } from 'vue-router'
     <div class="wrapper">
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/login">Login</RouterLink>
+        <span v-if="isLogged === false">
+          <RouterLink to="/auth">Accedi</RouterLink>
+          <RouterLink to="/registration">Registrati</RouterLink>
+        </span>
+        <span v-if="isLogged">
+          <RouterLink to="/programmazione">Programmazione</RouterLink>
+          <a href="#" @click="onLogout" >Logout</a>
+        </span>
       </nav>
     </div>
   </header>
