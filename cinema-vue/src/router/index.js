@@ -1,31 +1,32 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import AuthView from '../views/AuthView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
 
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView
-    },
-    {
-      path: '/auth',
-      name:'auth',
-      component: AuthView
-    },
-    {
-      path: '/registration',
-      name: 'registration',
-      component: () => import('../views/RegistrationView.vue')
-    },
-    {
-      path: '/programmazione',
-      name: 'programmazione',
-      component: () => import('../views/ProgrammazioneView.vue')
+import { useAuthStore, useAlertStore } from '@/stores';
+import { Home } from '@/views';
+import accountRoutes from './account.routes';
+
+export const router = createRouter({
+    history: createWebHistory(import.meta.env.BASE_URL),
+    linkActiveClass: 'active',
+    routes: [
+        { path: '/', component: Home },
+        { ...accountRoutes },
+        // catch all redirect to home page
+        { path: '/:pathMatch(.*)*', redirect: '/' }
+    ]
+});
+
+router.beforeEach(async (to) => {
+    // clear alert on route change
+    const alertStore = useAlertStore();
+    alertStore.clear();
+
+    // redirect to login page if not logged in and trying to access a restricted page 
+    const publicPages = ['/account/login', '/account/registration'];
+    const authRequired = !publicPages.includes(to.path);
+    const authStore = useAuthStore();
+
+    if (authRequired && !authStore.isLogged) {
+        authStore.returnUrl = to.fullPath;
+        return '/account/login';
     }
-  ]
-})
-
-export default router
+});
