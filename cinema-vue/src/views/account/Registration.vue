@@ -21,10 +21,10 @@ const onRegistration = (e) => {
     }
     store.registration({ usr, pwd, data_nascita: dataNascita, ruolo: 'USER' })
         .then(json => {
-            alertStore.success('registrazione ok');
+            alertStore.success('Grazie per esserti registrato.');
         })
         .catch(error => {
-            alertStore.error('registrazione ko');
+            alertStore.error('Si è verificato un errore durante la registrazione.');
         })
 }
 </script>
@@ -53,7 +53,7 @@ const onRegistration = (e) => {
         </div>
         <div class="field is-grouped">
             <p class="control">
-                <button @click.prevent="onRegistration" class="button is-primary">
+                <button @click.prevent="onRegistration" class="button is-primary" :class="{ 'is-loading': alertStore.isLoading }">
                     Salva
                 </button>
             </p>

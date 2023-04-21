@@ -3,7 +3,8 @@ import { defineStore } from 'pinia';
 export const useAlertStore = defineStore({
     id: 'alert',
     state: () => ({
-        alert: null
+        alert: null,
+        isLoading: false
     }),
     actions: {
         success(message) {
@@ -14,6 +15,12 @@ export const useAlertStore = defineStore({
         },
         clear() {
             this.alert = null;
+        },
+        loading() {
+            this.isLoading = true;
+        },
+        done() {
+            this.isLoading = false;
         }
     }
 });

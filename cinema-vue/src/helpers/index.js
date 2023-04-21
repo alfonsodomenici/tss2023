@@ -1,2 +1,2 @@
-export * from './rest.js';
-export * from './ApiCall.js';
+export * from './apiCall.js';
+export * from './tokenManager.js';

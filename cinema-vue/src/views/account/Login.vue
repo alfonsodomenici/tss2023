@@ -28,7 +28,7 @@ const onLogin = (e) => {
     store.login({ usr, pwd })
         .then(_ => router.push('/'))
         .catch(error => {
-            alertStore.error('login ko');
+            alertStore.error('Autenticazione fallita!');
         })
 }
 </script>
@@ -50,7 +50,7 @@ const onLogin = (e) => {
         </div>
         <div class="field is-grouped">
             <p class="control">
-                <button @click.prevent="onLogin" class="button is-primary">
+                <button @click.prevent="onLogin" class="button is-primary" :class="{ 'is-loading': alertStore.isLoading }">
                     Login
                 </button>
             </p>

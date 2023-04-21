@@ -2,22 +2,49 @@ import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { config } from '@/app.config.js';
 import { post } from "@/helpers";
+import { isAuthenticated, loggedUserId, loggedUsername, isUserInRole, readToken, storeToken, removeToken } from '@/helpers';
 
 const baseUrl = `${config.baseUrl}/utenti/login`;
 
 export const useAuthStore = defineStore('auth', () => {
-  const token = ref(null);
-  const errore = ref(null);
 
-  const isLogged = computed(() => token.value !== null);
+  const refresh = ref(0);
+  const isLogged = computed(() => {
+    refresh.value;
+    return isAuthenticated();
+  });
+  const loggedId = computed(() => {
+    refresh.value;
+    return loggedUserId();
+  });
+  const loggedUser = computed(() => {
+    refresh.value;
+    return loggedUsername();
+  });
+  const isAdmin = computed(() => {
+    refresh.value;
+    return isUserInRole('ADMIN');
+  });
+  const isUser = computed(() => {
+    refresh.value;
+    return isUserInRole('USER');
+  });
+  const token = computed(() => {
+    refresh.value;
+    return readToken()
+  });
 
   async function login(credential) {
     const data = await post(`${baseUrl}`, credential);
-    token.value = data.jwt;
+    storeToken(data.jwt);
+    refresh.value++;
   }
 
   function logout() {
-    token.value = null;
+    removeToken();
+    refresh.value++;
   }
-  return { token, errore, isLogged, login, logout };
+
+  return { isLogged, loggedId, loggedUser, isAdmin, isUser, token, login, logout };
+
 })
