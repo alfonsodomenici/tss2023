@@ -19,6 +19,7 @@ const onLogout = (e) => {
         <div class="navbar-menu">
             <div class="navbar-start">
                 <RouterLink to="/" class="navbar-item">Home</RouterLink>
+                <RouterLink to="/programmazione" class="navbar-item">Programmazione</RouterLink>
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">

@@ -1,10 +1,10 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { config } from '@/app.config.js';
-import { post } from "@/helpers";
+import { request } from "@/helpers";
 import { isAuthenticated, loggedUserId, loggedUsername, isUserInRole, readToken, storeToken, removeToken } from '@/helpers';
 
-const baseUrl = `${config.baseUrl}/utenti/login`;
+const url = `${config.baseUrl}/utenti/login`;
 
 export const useAuthStore = defineStore('auth', () => {
 
@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('auth', () => {
   });
 
   async function login(credential) {
-    const data = await post(`${baseUrl}`, credential);
+    const data = await request('POST', url, credential);
     storeToken(data.jwt);
     refresh.value++;
   }

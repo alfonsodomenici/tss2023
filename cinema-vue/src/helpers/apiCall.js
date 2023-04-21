@@ -1,33 +1,25 @@
 import { useAuthStore, useAlertStore } from "@/stores";
 import { config } from "@/app.config.js";
 
-const get = async (url, body) => {
+const request = async (method, url, body) => {
     const alertStore = useAlertStore();
+    const authStore = useAuthStore();
     try {
         alertStore.loading();
         await sleep(2000);
-        const resp = await fetch(url, createRequestOptions(url, "GET", body));
-        checkResponse(resp);
-        return isJsonResponse(resp) ? await response.json() : null;
-    } finally {
-        alertStore.done();
-    }
-};
-
-const post = async (url, body) => {
-    const alertStore = useAlertStore();
-    try {
-        alertStore.loading();
-        await sleep(2000);
-        const resp = await fetch(url, createRequestOptions(url, "POST", body));
+        const resp = await fetch(url, createRequestOptions(method, url, body));
+        console.log(resp);
         checkResponse(resp);
         return isJsonResponse(resp) ? await resp.json() : null;
-    } finally {
+    }catch(error){
+        authStore.logout();
+    } 
+    finally {
         alertStore.done();
     }
-};
+}
 
-const createRequestOptions = (url, method, body) => {
+const createRequestOptions = (method, url, body) => {
     const reqOptions = {};
     const { isLogged, token } = useAuthStore();
     const isApiUrl = url.startsWith(config.baseUrl);
@@ -58,12 +50,11 @@ const checkResponse = (resp) => {
 };
 
 const isJsonResponse = (resp) => {
-    const result = resp.headers?.get("content-type")?.includes("application/json");
-    return result;
+    return resp.headers?.get("content-type")?.includes("application/json");
 };
 
 const sleep = async (msec) => {
     return new Promise(resolve => setTimeout(resolve, msec));
 }
 
-export { get, post }
+export { request }

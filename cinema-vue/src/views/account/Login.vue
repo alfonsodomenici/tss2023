@@ -28,6 +28,7 @@ const onLogin = (e) => {
     store.login({ usr, pwd })
         .then(_ => router.push('/'))
         .catch(error => {
+            console.log(error);
             alertStore.error('Autenticazione fallita!');
         })
 }

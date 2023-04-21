@@ -10,6 +10,6 @@ const { alert } = storeToRefs(alertStore);
 <template>
     <div v-if="alert" class="notification" :class="alert.type">
         <button @click="alertStore.clear()" class="delete"></button>
-        <p class="is-size-2 has-text-centered">{{ alert.message }}</p>
+        <p class="is-size-5 has-text-centered">{{ alert.message }}</p>
     </div>
 </template>
