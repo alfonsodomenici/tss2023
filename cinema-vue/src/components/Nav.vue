@@ -9,7 +9,6 @@ const router = useRouter();
 
 const onLogout = (e) => {
     authStore.logout();
-    router.push("/account/login")
 }
 
 </script>
@@ -17,6 +16,14 @@ const onLogout = (e) => {
 <template>
     <nav v-show="isLogged" class="navbar is-blank has-shadow is-spaced" role="navigation" aria-label="main navigation">
         <div class="navbar-menu">
+            <div class="navbar-brand">
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                    data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
             <div class="navbar-start">
                 <RouterLink to="/" class="navbar-item">Home</RouterLink>
                 <RouterLink to="/programmazione" class="navbar-item">Programmazione</RouterLink>

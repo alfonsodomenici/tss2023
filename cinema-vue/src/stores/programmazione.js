@@ -6,25 +6,26 @@ import { config } from '@/app.config.js';
 const baseUrl = `${config.baseUrl}/programmazioni`;
 
 export const useProgrammazioneStore = defineStore("programmazione", () => {
-  const items = ref({});
-  const item = ref({});
+  const progrs = ref([]);
+  const progr = ref({});
 
   async function create(progr) {
-    return await request('POST', `${baseUrl}`, progr);
+    const result = await request('POST', `${baseUrl}`, progr);
+    progrs.push(result);
   }
   async function getAll() {
-    items.value = {};
-    items.value = await request('GET', `${baseUrl}`);
+    progrs.value = await request('GET', `${baseUrl}`);
   }
-  async function getById() {
-    return await request('GET', `${baseUrl}`, progr);
+  async function getById(id) {
+    progr.value = await request('GET', `${baseUrl}/${id}`);
   }
   async function update(progr) {
-    return await request('PUT', `${baseUrl}`, progr);
+    progr.value = await request('PUT', `${baseUrl}`, progr);
   }
-  async function remove(progr) {
-    return await request('DELETE', `${baseUrl}`, progr);
+  async function remove(id) {
+     await request('DELETE', `${baseUrl}/${id}`);
+     progrs.value = progrs.value.filter(v => v.id !== id);
   }
 
-  return { items, item, create, getAll, getById, update, remove };
+  return { progrs, progr, create, getAll, getById, update, remove };
 });

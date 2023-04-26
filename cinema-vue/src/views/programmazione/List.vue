@@ -7,7 +7,7 @@ const store = useProgrammazioneStore();
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
 
-const { items } = storeToRefs(store);
+const { progrs } = storeToRefs(store);
 
 store.getAll();
 </script>
@@ -16,8 +16,8 @@ store.getAll();
     <p class="title has-text-centered">Film in programma</p>
     <RouterLink to="/programmazione/add" class="button is-primary">Aggiungi</RouterLink>
     <div class="list">
-        <template v-if="items.length">
-            <div class="list-item" v-for="item in items">
+        <template v-if="progrs && progrs.length">
+            <div class="list-item" v-for="item in progrs">
                 <div class="list-item-content">
                     <div class="list-item-title">{{ item.il }}</div>
                     <div class="list-item-description">

@@ -8,7 +8,6 @@ const request = async (method, url, body) => {
         alertStore.loading();
         await sleep(2000);
         const resp = await fetch(url, createRequestOptions(method, url, body));
-        console.log(resp);
         checkResponse(resp);
         return isJsonResponse(resp) ? await resp.json() : null;
     }catch(error){

@@ -3,8 +3,10 @@ import { defineStore } from 'pinia';
 import { config } from '@/app.config.js';
 import { request } from "@/helpers";
 import { isAuthenticated, loggedUserId, loggedUsername, isUserInRole, readToken, storeToken, removeToken } from '@/helpers';
+import { router } from '@/router';
 
 const url = `${config.baseUrl}/utenti/login`;
+
 
 export const useAuthStore = defineStore('auth', () => {
 
@@ -43,6 +45,7 @@ export const useAuthStore = defineStore('auth', () => {
   function logout() {
     removeToken();
     refresh.value++;
+    router.push("/account/login")
   }
 
   return { isLogged, loggedId, loggedUser, isAdmin, isUser, token, login, logout };

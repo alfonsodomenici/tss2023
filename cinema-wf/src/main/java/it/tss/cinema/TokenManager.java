@@ -29,7 +29,7 @@ public class TokenManager {
                 .upn(e.getUsr())
                 .groups(new HashSet<>(Arrays.asList(e.getRuolo().name())))
                 .claim(Claims.birthdate.name(), e.getDataNascita().toString())
-                .expiresIn(Duration.ofMinutes(60))
+                .expiresIn(Duration.ofMinutes(1))
                 .sign();
         return token;
     }

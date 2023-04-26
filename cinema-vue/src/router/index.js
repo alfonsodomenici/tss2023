@@ -17,6 +17,7 @@ export const router = createRouter({
     ]
 });
 
+
 router.beforeEach(async (to) => {
     // clear alert on route change
     const alertStore = useAlertStore();
