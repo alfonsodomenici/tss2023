@@ -4,6 +4,7 @@ import { useAuthStore, useAlertStore } from '@/stores';
 import { Home } from '@/views';
 import accountRoutes from './account.routes';
 import programmazioneRoutes from './programmazione.routes';
+import filmRoutes from './film.routes.js';
 
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,6 +13,7 @@ export const router = createRouter({
         { path: '/', component: Home },
         { ...accountRoutes },
         { ...programmazioneRoutes},
+        { ...filmRoutes},
         // catch all redirect to home page
         { path: '/:pathMatch(.*)*', redirect: '/' }
     ]

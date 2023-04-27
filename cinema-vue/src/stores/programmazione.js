@@ -26,6 +26,12 @@ export const useProgrammazioneStore = defineStore("programmazione", () => {
      await request('DELETE', `${baseUrl}/${id}`);
      progrs.value = progrs.value.filter(v => v.id !== id);
   }
+  async function getProiezioni(id) {
+    return await request('GET', `${baseUrl}/${id}/proiezioni`);
+  }
+  async function createProiezione(id,proiezione) {
+    return await request('POST', `${baseUrl}/${id}/proiezioni`);
+  }
 
-  return { progrs, progr, create, getAll, getById, update, remove };
+  return { progrs, progr, create, getAll, getById, update, remove, getProiezioni, createProiezione };
 });

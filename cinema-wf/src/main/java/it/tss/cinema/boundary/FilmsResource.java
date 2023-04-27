@@ -16,9 +16,11 @@ import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -32,36 +34,54 @@ import javax.ws.rs.core.MediaType;
 @Boundary
 @Path("films")
 public class FilmsResource {
+
     @Inject
     FilmStore store;
-    
+
     @Inject
     ProgrammazioneStore programmazioneStore;
-    
+
     @RolesAllowed({"ADMIN"})
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Film create(Film e){
+    public Film create(Film e) {
         return store.save(e);
     }
-    
-    @RolesAllowed({"ADMIN","USER"})
+
+    @RolesAllowed({"ADMIN", "USER"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Film> all(){
+    public List<Film> all() {
         return store.all();
     }
-    
-    @RolesAllowed({"ADMIN","USER"})
+
+    @RolesAllowed({"ADMIN", "USER"})
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Film find(@PathParam("id") Long id) {
         return store.findById(id).orElseThrow(() -> new NotFoundException());
     }
-    
-    @RolesAllowed({"ADMIN","USER"})
+
+    @RolesAllowed({"ADMIN"})
+    @PUT
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Film update(@PathParam("id") Long id, Film e) {
+        e.setId(id);
+        return store.save(e);
+    }
+
+    @RolesAllowed({"ADMIN"})
+    @DELETE
+    @Path("{id}")
+    public void remove(@PathParam("id") Long id) {
+        store.remove(id);
+    }
+
+    @RolesAllowed({"ADMIN", "USER"})
     @GET
     @Path("{id}/programmazioni")
     @Produces(MediaType.APPLICATION_JSON)
@@ -69,8 +89,8 @@ public class FilmsResource {
         Film found = store.findById(id).orElseThrow(() -> new NotFoundException());
         return programmazioneStore.byFilm(found.getId());
     }
-    
-    @RolesAllowed({"ADMIN","USER"})
+
+    @RolesAllowed({"ADMIN", "USER"})
     @POST
     @Path("{id}/programmazioni")
     @Consumes(MediaType.APPLICATION_JSON)

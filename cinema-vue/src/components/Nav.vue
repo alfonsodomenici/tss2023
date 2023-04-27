@@ -4,7 +4,7 @@ import { useAuthStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 
 const authStore = useAuthStore();
-const { isLogged } = storeToRefs(authStore);
+const { isLogged, isAdmin } = storeToRefs(authStore);
 const router = useRouter();
 
 const onLogout = (e) => {
@@ -26,6 +26,7 @@ const onLogout = (e) => {
             </div>
             <div class="navbar-start">
                 <RouterLink to="/" class="navbar-item">Home</RouterLink>
+                <RouterLink v-if="isAdmin" to="/films" class="navbar-item">Films</RouterLink>
                 <RouterLink to="/programmazione" class="navbar-item">Programmazione</RouterLink>
             </div>
             <div class="navbar-end">

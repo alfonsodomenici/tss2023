@@ -6,12 +6,12 @@ const request = async (method, url, body) => {
     const authStore = useAuthStore();
     try {
         alertStore.loading();
-        await sleep(2000);
+        await sleep(1000);
         const resp = await fetch(url, createRequestOptions(method, url, body));
         checkResponse(resp);
         return isJsonResponse(resp) ? await resp.json() : null;
     }catch(error){
-        authStore.logout();
+        return Promise.reject('errore sul server...' + error)
     } 
     finally {
         alertStore.done();
@@ -41,11 +41,10 @@ const checkResponse = (resp) => {
         return;
     }
     if ([401, 403].includes(resp.status) && isLogged) {
-        // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
         logout();
         return;
     }
-    throw new Error("Network response was not OK");
+    throw new Error(resp.statusText);
 };
 
 const isJsonResponse = (resp) => {

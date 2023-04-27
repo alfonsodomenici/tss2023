@@ -1,19 +1,23 @@
 <script setup>
-import { useRouter, RouterLink } from 'vue-router';
-import { useProgrammazioneStore, useAuthStore, useAlertStore } from '@/stores';
+import { useRouter, useRoute, RouterLink } from 'vue-router';
+import { useFilmsStore, useAuthStore, useAlertStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 
-const store = useProgrammazioneStore();
+const store = useFilmsStore();
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
+const route = useRoute();
 
-const { progrs } = storeToRefs(store);
+const id = route.params.id;
 
-store.getAll();
+const { progrs, film } = storeToRefs(store);
+
+store.getProgrammazione(id);
 </script>
 
 <template>
-    <p class="title has-text-centered">Film in programma</p>
+    <p class="title has-text-centered">Programmazione {{ film.titolo }}</p>
+    <RouterLink :to="`/films/programmazione/add/${id}`" class="button is-primary">Aggiungi</RouterLink>
     <div class="list">
         <template v-if="progrs && progrs.length">
             <div class="list-item" v-for="item in progrs">
@@ -27,7 +31,7 @@ store.getAll();
                 </div>
                 <div class="list-item-controls">
                     <div class="buttons is-right">
-
+                        <button class="button is-danger">Elimina</button>
                     </div>
                 </div>
             </div>
