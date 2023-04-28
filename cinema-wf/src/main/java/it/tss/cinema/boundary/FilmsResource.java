@@ -107,8 +107,9 @@ public class FilmsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Programmazione creaProgrammazione(@PathParam("id") Long id, @Valid ProgDTO e) {
         Film found = store.findById(id).orElseThrow(() -> new NotFoundException());
-        Programmazione saved = new Programmazione(found,e.il,e.prezzo);
-        
+        Programmazione saved = 
+                programmazioneStore.save(
+                        new Programmazione(found,e.il,e.prezzo));
         salaStore.all()
                 .stream().filter(v -> e.tutteSale || 
                         e.sale_id.contains(v.getId()))
