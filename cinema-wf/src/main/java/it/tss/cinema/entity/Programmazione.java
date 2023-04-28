@@ -48,6 +48,13 @@ public class Programmazione extends AbstractEntity {
     public Programmazione() {
     }
 
+    public Programmazione(Film film, LocalDate il, BigDecimal prezzo) {
+        this.film = film;
+        this.il = il;
+        this.prezzo = prezzo;
+    }
+
+    
     public Film getFilm() {
         return film;
     }

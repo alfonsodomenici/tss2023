@@ -25,7 +25,8 @@ function onSave() {
 </script>
 
 <template>
-    <p class="title has-text-centered">{{ film.titolo }}</p>
+    <p class="title has-text-centered is-size-4">Metti in programma <span class="has-text-primary is-size-3">{{ film.titolo
+    }}</span></p>
     <form method="post" ref="form">
         <div class="field">
             <label class="label">Quando</label>
@@ -40,6 +41,26 @@ function onSave() {
                 <input v-model="progr.prezzo" class="input" type="number" placeholder="prezzo" required>
             </div>
         </div>
+        
+        <p class="has-text-primary is-size-2">Dove lo vuoi proiettare?</p>
+        
+        <div class="field ">
+            <label class="checkbox">
+                <input type="checkbox">
+                Su tutte le sale
+            </label>
+        </div>
+        
+        <div class="field ">
+            <label class="label">Scegli le sale</label>
+            <div class="select is-multiple">
+                <select multiple>
+                    <option>Sala 1</option>
+                    <option>Sala 2</option>
+                </select>
+            </div>
+        </div>
+
         <div class="field is-grouped">
             <p class="control">
                 <button @click.prevent="onSave" class="button is-primary" :class="{ 'is-loading': alertStore.isLoading }">

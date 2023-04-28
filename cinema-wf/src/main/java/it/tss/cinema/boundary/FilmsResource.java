@@ -7,6 +7,7 @@ package it.tss.cinema.boundary;
 import it.tss.cinema.Boundary;
 import it.tss.cinema.control.FilmStore;
 import it.tss.cinema.control.ProgrammazioneStore;
+import it.tss.cinema.control.ProiezioneStore;
 import it.tss.cinema.control.SalaStore;
 import it.tss.cinema.entity.Film;
 import it.tss.cinema.entity.Programmazione;
@@ -25,7 +26,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
+import it.tss.cinema.dto.ProgDTO;
+import it.tss.cinema.entity.Proiezione;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
 /**
  *
  * @author ospite
@@ -38,6 +42,12 @@ public class FilmsResource {
     @Inject
     FilmStore store;
 
+    @Inject
+    SalaStore salaStore;
+    
+    @Inject
+    ProiezioneStore proiezioneStore;
+    
     @Inject
     ProgrammazioneStore programmazioneStore;
 
@@ -95,9 +105,15 @@ public class FilmsResource {
     @Path("{id}/programmazioni")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Programmazione creaProgrammazione(@PathParam("id") Long id, Programmazione e) {
+    public Programmazione creaProgrammazione(@PathParam("id") Long id, @Valid ProgDTO e) {
         Film found = store.findById(id).orElseThrow(() -> new NotFoundException());
-        e.setFilm(found);
-        return programmazioneStore.save(e);
+        Programmazione saved = new Programmazione(found,e.il,e.prezzo);
+        
+        salaStore.all()
+                .stream().filter(v -> e.tutteSale || 
+                        e.sale_id.contains(v.getId()))
+                .forEach(v -> proiezioneStore.save(
+                        new Proiezione(saved, v, v.getPosti())));
+        return saved;
     }
 }
