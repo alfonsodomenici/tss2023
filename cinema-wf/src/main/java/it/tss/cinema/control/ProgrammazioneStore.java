@@ -10,6 +10,7 @@ import it.tss.cinema.entity.Programmazione;
 import it.tss.cinema.entity.Sala;
 import java.time.LocalDate;
 import java.util.List;
+import javax.inject.Inject;
 
 /**
  *
@@ -18,15 +19,25 @@ import java.util.List;
 @Control
 public class ProgrammazioneStore extends AbstractStore<Programmazione> {
 
+    @Inject
+    ProiezioneStore proiezioneStore;
+    
     public ProgrammazioneStore() {
         super(Programmazione.class);
+    }
+
+    @Override
+    public void remove(Long id) {
+        proiezioneStore.byProgrammazione(id)
+                .forEach(v -> proiezioneStore.remove(v.getId()));
+        super.remove(id);
     }
 
     public List<Programmazione> all() {
         return em.createNamedQuery(Programmazione.FIND_ALL, Programmazione.class)
                 .getResultList();
     }
-    
+
     public List<Programmazione> prossime() {
         return em.createNamedQuery(Programmazione.FIND_BY_DATA, Programmazione.class)
                 .setParameter("data", LocalDate.now())
@@ -38,4 +49,5 @@ public class ProgrammazioneStore extends AbstractStore<Programmazione> {
                 .setParameter("film_id", filmId)
                 .getResultList();
     }
+
 }

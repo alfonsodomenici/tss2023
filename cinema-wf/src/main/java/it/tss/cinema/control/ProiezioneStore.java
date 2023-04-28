@@ -14,6 +14,7 @@ import it.tss.cinema.entity.Sala;
 import java.util.List;
 import java.util.Optional;
 import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
@@ -24,10 +25,20 @@ import javax.ws.rs.NotFoundException;
 @Control
 public class ProiezioneStore extends AbstractStore<Proiezione> {
 
+    @Inject
+    BigliettoStore bigliettoStore;
+    
     public ProiezioneStore() {
         super(Proiezione.class);
     }
 
+        @Override
+    public void remove(Long id) {
+        bigliettoStore.byProiezione(id)
+                .forEach(v -> bigliettoStore.remove(v.getId()));
+        super.remove(id);
+    }
+    
     public List<Proiezione> byProgrammazione(Long programmazione_id) {
         return em.createNamedQuery(Proiezione.FIND_BY_PROGRAMMAZIONE, Proiezione.class)
                 .setParameter("id", programmazione_id)

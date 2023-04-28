@@ -2,7 +2,7 @@
 import { useRoute, RouterLink } from 'vue-router';
 import { ref } from 'vue';
 import {
-    useFilmsStore
+    useFilmsStore, useSaleStore
     , useAuthStore, useAlertStore
 } from '@/stores';
 import { storeToRefs } from 'pinia';
@@ -11,15 +11,19 @@ const MIN_DATE = new Date().toISOString().slice(0, 10)
 
 const store = useFilmsStore();
 const alertStore = useAlertStore();
+const saleStore = useSaleStore();
 
 const route = useRoute();
 const id = route.params.id;
 
 const { film, progr } = storeToRefs(store);
+const { sale } = storeToRefs(saleStore);
 
+saleStore.getAll();
 store.getById(id);
 
 function onSave() {
+    console.log(progr.value);
     store.createProgrammazione(id);
 }
 </script>
@@ -41,22 +45,21 @@ function onSave() {
                 <input v-model="progr.prezzo" class="input" type="number" placeholder="prezzo" required>
             </div>
         </div>
-        
+
         <p class="has-text-primary is-size-2">Dove lo vuoi proiettare?</p>
-        
+
         <div class="field ">
             <label class="checkbox">
-                <input type="checkbox">
+                <input v-model="progr.tutte_sale" type="checkbox">
                 Su tutte le sale
             </label>
         </div>
-        
-        <div class="field ">
+
+        <div v-if="!progr.tutte_sale" class="field ">
             <label class="label">Scegli le sale</label>
             <div class="select is-multiple">
-                <select multiple>
-                    <option>Sala 1</option>
-                    <option>Sala 2</option>
+                <select v-model="progr.sale_id" multiple>
+                    <option v-for="sala in sale" :value="sala.id">{{ sala.nome }}</option>
                 </select>
             </div>
         </div>

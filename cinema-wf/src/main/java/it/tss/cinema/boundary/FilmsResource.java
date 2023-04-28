@@ -26,7 +26,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import it.tss.cinema.dto.ProgDTO;
 import it.tss.cinema.entity.Proiezione;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
