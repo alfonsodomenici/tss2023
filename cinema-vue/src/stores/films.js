@@ -10,16 +10,12 @@ export const useFilmsStore = defineStore("films", () => {
   const film = ref({});
   const progrs = ref([]);
   const progr = ref({});
-  const isAllSale = ref(false);
-  const saleSelected = ref([]);
 
   function $reset() {
     films.value = [];
     film.value = {};
     progrs.value = [];
     progr.value = {};
-    isAllSale.value = false;
-    saleSelected = [];
   }
   async function create() {
     await request('POST', `${baseUrl}`, film.value);
@@ -49,8 +45,5 @@ export const useFilmsStore = defineStore("films", () => {
     progr.value = {};
   }
 
-  async function createProiezione(sala) {
-
-  }
-  return { films, film, progrs, progr, isAllSale, saleSelected, $reset, create, getAll, getById, update, remove, getProgrammazione, createProgrammazione };
+  return { films, film, progrs, progr, $reset, create, getAll, getById, update, remove, getProgrammazione, createProgrammazione };
 });
