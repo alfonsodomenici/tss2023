@@ -10,7 +10,9 @@ import it.tss.cinema.entity.Programmazione;
 import it.tss.cinema.entity.Sala;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -21,7 +23,7 @@ public class ProgrammazioneStore extends AbstractStore<Programmazione> {
 
     @Inject
     ProiezioneStore proiezioneStore;
-    
+
     public ProgrammazioneStore() {
         super(Programmazione.class);
     }
@@ -50,4 +52,16 @@ public class ProgrammazioneStore extends AbstractStore<Programmazione> {
                 .getResultList();
     }
 
+    public Optional<Programmazione> byFilmAndData(Long filmId, LocalDate data) {
+
+        try {
+            Programmazione found = em.createNamedQuery(Programmazione.FIND_BY_FILM, Programmazione.class)
+                    .setParameter("film_id", filmId)
+                    .setParameter("data", data)
+                    .getSingleResult();
+            return Optional.of(found);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
 }

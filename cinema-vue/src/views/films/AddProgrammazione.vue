@@ -29,8 +29,8 @@ function onSave() {
 </script>
 
 <template>
-    <p class="title has-text-centered is-size-4">Metti in programma <span class="has-text-primary is-size-3">{{ film.titolo
-    }}</span></p>
+    <p class="title has-text-centered is-size-4">Programma 
+        <span class="has-text-info is-size-3">{{ film.titolo }}</span></p>
     <form method="post" ref="form">
         <div class="field">
             <label class="label">Quando</label>
@@ -46,7 +46,7 @@ function onSave() {
             </div>
         </div>
 
-        <p class="has-text-primary is-size-2">Dove lo vuoi proiettare?</p>
+        <p class="has-text-info is-size-2">Dove lo vuoi proiettare?</p>
 
         <div class="field ">
             <label class="checkbox">
@@ -71,7 +71,7 @@ function onSave() {
                 </button>
             </p>
             <p class="control">
-                <RouterLink :to="`/films/programmazione/${id}`" class="button is-link is-light">Elenco</RouterLink>
+                <RouterLink :to="`/films/${id}/programmazione`" class="button is-link is-light">Elenco</RouterLink>
             </p>
         </div>
     </form>

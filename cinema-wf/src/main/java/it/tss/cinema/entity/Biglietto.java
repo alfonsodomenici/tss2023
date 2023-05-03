@@ -60,7 +60,6 @@ public class Biglietto extends AbstractEntity {
     @JoinColumn(name = "proiezione_id")
     Proiezione proiezione;
 
-    @JsonbTransient
     @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "utente_id")

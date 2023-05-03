@@ -27,21 +27,32 @@ public class ProiezioneStore extends AbstractStore<Proiezione> {
 
     @Inject
     BigliettoStore bigliettoStore;
-    
+
     public ProiezioneStore() {
         super(Proiezione.class);
     }
 
-        @Override
+    @Override
     public void remove(Long id) {
         bigliettoStore.byProiezione(id)
                 .forEach(v -> bigliettoStore.remove(v.getId()));
         super.remove(id);
     }
-    
-    public List<Proiezione> byProgrammazione(Long programmazione_id) {
+
+    public List<Proiezione> findAll() {
+        return em.createNamedQuery(Proiezione.FIND_ALL, Proiezione.class)
+                .getResultList();
+    }
+
+    public List<Proiezione> byFilm(Long filmId) {
+        return em.createNamedQuery(Proiezione.FIND_BY_FILM, Proiezione.class)
+                .setParameter("id", filmId)
+                .getResultList();
+    }
+
+    public List<Proiezione> byProgrammazione(Long programmazioneId) {
         return em.createNamedQuery(Proiezione.FIND_BY_PROGRAMMAZIONE, Proiezione.class)
-                .setParameter("id", programmazione_id)
+                .setParameter("id", programmazioneId)
                 .getResultList();
     }
 

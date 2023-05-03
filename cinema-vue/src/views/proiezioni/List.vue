@@ -1,33 +1,26 @@
 <script setup>
-import { useRouter, useRoute, RouterLink } from 'vue-router';
-import { useFilmsStore, useAuthStore, useAlertStore } from '@/stores';
+import { useRouter, RouterLink } from 'vue-router';
+import { useProiezioniStore, useAuthStore, useAlertStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 
-const store = useFilmsStore();
+const store = useProiezioniStore();
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
-const route = useRoute();
 
-const id = route.params.id;
+const { proiezioni } = storeToRefs(store);
 
-const { proiezioni, film } = storeToRefs(store);
-
-store.getProiezioni(id);
-
-function onElimina(id){
-    alert("TODO..." + id);
-}
+store.getAll();
 </script>
 
 <template>
-    <p class="title has-text-centered is-size-4">Programmazione <span class="has-text-info is-size-3">{{ film.titolo }}</span></p>
-    <RouterLink :to="`/films/${id}/programmazione/add`" class="button is-primary">Aggiungi</RouterLink>
+    <p class="title has-text-centered has-text-info">Film in programma</p>
     <div class="list">
         <template v-if="proiezioni && proiezioni.length">
             <div class="list-item" v-for="item in proiezioni">
                 <div class="list-item-content">
                     <div class="list-item-title">{{ item.programmazione.il }}</div>
                     <div class="list-item-title">{{ item.sala.nome }}</div>
+                    <div class="list-item-title">Posti disponibili: {{ item.disponibilita }}</div>
                     <div class="list-item-description">
                         <p class="is-size-4">{{ item.programmazione.film.titolo }}</p>
                         <p>di {{ item.programmazione.film.regista }}</p>
@@ -36,7 +29,7 @@ function onElimina(id){
                 </div>
                 <div class="list-item-controls">
                     <div class="buttons is-right">
-                        <button @click="onElimina(item.id)" class="button is-danger">Elimina</button>
+                        <RouterLink :to="`/proiezioni/${item.id}/biglietti`" class="button is-link" >Biglietti</RouterLink>
                     </div>
                 </div>
             </div>

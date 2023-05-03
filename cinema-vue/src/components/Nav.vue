@@ -27,7 +27,7 @@ const onLogout = (e) => {
             <div class="navbar-start">
                 <RouterLink to="/" class="navbar-item">Home</RouterLink>
                 <RouterLink v-if="isAdmin" to="/films" class="navbar-item">Films</RouterLink>
-                <RouterLink to="/programmazione" class="navbar-item">Programmazione</RouterLink>
+                <RouterLink to="/proiezioni" class="navbar-item">Calendario</RouterLink>
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">

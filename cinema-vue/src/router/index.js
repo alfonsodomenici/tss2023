@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore, useAlertStore } from '@/stores';
 import { Home } from '@/views';
 import accountRoutes from './account.routes';
-import programmazioneRoutes from './programmazione.routes';
+import proiezioniRoutes from './proiezioni.routes';
 import filmRoutes from './film.routes.js';
 
 export const router = createRouter({
@@ -12,7 +12,7 @@ export const router = createRouter({
     routes: [
         { path: '/', component: Home },
         { ...accountRoutes },
-        { ...programmazioneRoutes},
+        { ...proiezioniRoutes},
         { ...filmRoutes},
         // catch all redirect to home page
         { path: '/:pathMatch(.*)*', redirect: '/' }

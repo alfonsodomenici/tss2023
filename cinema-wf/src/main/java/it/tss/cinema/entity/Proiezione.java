@@ -13,7 +13,12 @@ import javax.validation.constraints.NotNull;
 
 @NamedQueries({
     @NamedQuery(name = Proiezione.FIND_BY_PROGRAMMAZIONE, 
-            query = "select e from Proiezione e where e.programmazione.id= :id"),})
+            query = "select e from Proiezione e where e.programmazione.id= :id"),
+     @NamedQuery(name = Proiezione.FIND_BY_FILM, 
+            query = "select e from Proiezione e where e.programmazione.film.id= :id"),
+      @NamedQuery(name = Proiezione.FIND_ALL, 
+            query = "select e from Proiezione e order by e.programmazione.il, e.sala.nome"),
+    })
 
 @Entity
 @Table(name = "proiezione",
@@ -22,6 +27,8 @@ import javax.validation.constraints.NotNull;
 public class Proiezione extends AbstractEntity {
 
     public static final String FIND_BY_PROGRAMMAZIONE = "Proiezione.findByProgrammazione";
+    public static final String FIND_BY_FILM = "Proiezione.findByFilm";
+    public static final String FIND_ALL = "Proiezione.findAll";
 
     @NotNull
     @ManyToOne(optional = false)

@@ -7,7 +7,7 @@ export default {
         { path: '', component: List },
         { path: 'add', component: AddEdit },
         { path: 'edit/:id', component: AddEdit },
-        { path: 'programmazione/:id', component: ListProgrammazione },
-        { path: 'programmazione/add/:id', component: AddProgrammazione }
+        { path: ':id/programmazione', component: ListProgrammazione },
+        { path: ':id/programmazione/add/', component: AddProgrammazione }
     ]
 };

@@ -8,13 +8,13 @@ const baseUrl = `${config.baseUrl}/films`;
 export const useFilmsStore = defineStore("films", () => {
   const films = ref([]);
   const film = ref({});
-  const progrs = ref([]);
+  const proiezioni = ref([]);
   const progr = ref({});
 
   function $reset() {
     films.value = [];
     film.value = {};
-    progrs.value = [];
+    proiezioni.value = [];
     progr.value = {};
   }
   async function create() {
@@ -35,9 +35,9 @@ export const useFilmsStore = defineStore("films", () => {
     films.value = films.value.filter(v => v.id !== id);
   }
 
-  async function getProgrammazione(id) {
+  async function getProiezioni(id) {
     await getById(id);
-    progrs.value = await request('GET', `${baseUrl}/${id}/programmazioni`);
+    proiezioni.value = await request('GET', `${baseUrl}/${id}/proiezioni`);
   }
 
   async function createProgrammazione(id) {
@@ -45,5 +45,5 @@ export const useFilmsStore = defineStore("films", () => {
     progr.value = {};
   }
 
-  return { films, film, progrs, progr, $reset, create, getAll, getById, update, remove, getProgrammazione, createProgrammazione };
+  return { films, film, proiezioni, progr, $reset, create, getAll, getById, update, remove, getProiezioni, createProgrammazione };
 });

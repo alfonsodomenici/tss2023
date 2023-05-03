@@ -27,8 +27,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import it.tss.cinema.entity.Proiezione;
+import java.time.LocalDate;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
+
 /**
  *
  * @author ospite
@@ -43,10 +46,10 @@ public class FilmsResource {
 
     @Inject
     SalaStore salaStore;
-    
+
     @Inject
     ProiezioneStore proiezioneStore;
-    
+
     @Inject
     ProgrammazioneStore programmazioneStore;
 
@@ -90,7 +93,7 @@ public class FilmsResource {
         store.remove(id);
     }
 
-    @RolesAllowed({"ADMIN", "USER"})
+    @RolesAllowed({"ADMIN"})
     @GET
     @Path("{id}/programmazioni")
     @Produces(MediaType.APPLICATION_JSON)
@@ -99,21 +102,31 @@ public class FilmsResource {
         return programmazioneStore.byFilm(found.getId());
     }
 
-    @RolesAllowed({"ADMIN", "USER"})
+    @RolesAllowed({"ADMIN"})
     @POST
     @Path("{id}/programmazioni")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Programmazione creaProgrammazione(@PathParam("id") Long id, @Valid ProgDTO e) {
         Film found = store.findById(id).orElseThrow(() -> new NotFoundException());
-        Programmazione saved = 
-                programmazioneStore.save(
-                        new Programmazione(found,e.il,e.prezzo));
+        Optional<Programmazione> searchProgr = programmazioneStore.byFilmAndData(id, e.il);
+        Programmazione p = searchProgr.isEmpty()
+                ? programmazioneStore.save(
+                        new Programmazione(found, e.il, e.prezzo)) : searchProgr.get();
         salaStore.all()
-                .stream().filter(v -> e.tutteSale || 
-                        e.sale_id.contains(v.getId()))
+                .stream().filter(v -> e.tutteSale
+                || e.sale_id.contains(v.getId()))
                 .forEach(v -> proiezioneStore.save(
-                        new Proiezione(saved, v, v.getPosti())));
-        return saved;
+                new Proiezione(p, v, v.getPosti())));
+        return p;
+    }
+    
+    @RolesAllowed({"ADMIN"})
+    @GET
+    @Path("{id}/proiezioni")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Proiezione> proiezioni(@PathParam("id") Long id) {
+        Film found = store.findById(id).orElseThrow(() -> new NotFoundException());
+        return proiezioneStore.byFilm(found.getId());
     }
 }

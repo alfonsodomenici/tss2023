@@ -36,7 +36,7 @@ function onElimina(id){
                 <div class="list-item-controls">
                     <div class="buttons is-right">
                         <RouterLink :to="`/films/edit/${item.id}`" class="button is-link" >Modifica</RouterLink>
-                        <RouterLink :to="`/films/programmazione/${item.id}`" class="button is-link" >Programmazione</RouterLink>
+                        <RouterLink :to="`/films/${item.id}/programmazione`" class="button is-link" >Programmazione</RouterLink>
                         <button @click="onElimina(item.id)" class="button is-danger" :class="{ 'is-loading': alertStore.isLoading }">Elimina</button>
                     </div>
                 </div>

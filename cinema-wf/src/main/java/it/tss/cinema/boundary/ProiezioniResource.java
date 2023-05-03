@@ -14,7 +14,9 @@ import it.tss.cinema.entity.Programmazione;
 import it.tss.cinema.entity.Proiezione;
 import it.tss.cinema.entity.Sala;
 import it.tss.cinema.entity.Utente;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
@@ -52,6 +54,13 @@ public class ProiezioniResource {
 
     @RolesAllowed({"ADMIN", "USER"})
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Proiezione> prossime() {
+        return store.findAll().stream().filter(v -> !LocalDate.now().isAfter(v.getProgrammazione().getIl())).collect(Collectors.toList());
+    }
+
+    @RolesAllowed({"ADMIN", "USER"})
+    @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Proiezione find(@PathParam("id") Long id) {
@@ -65,8 +74,8 @@ public class ProiezioniResource {
     public List<Biglietto> biglietti(@PathParam("id") Long id) {
         Utente logged = utenteStore.findById(Long.parseLong(jwt.getSubject()))
                 .orElseThrow(() -> new NotFoundException());
-
-        return bigliettoStore.byProiezioneUtente(id, logged.getId());
+        boolean isAdmin = jwt.getGroups().contains(Utente.Ruolo.ADMIN.name());
+        return isAdmin ? bigliettoStore.byProiezione(id) : bigliettoStore.byProiezioneUtente(id, logged.getId());
     }
 
     @RolesAllowed({"ADMIN", "USER"})
