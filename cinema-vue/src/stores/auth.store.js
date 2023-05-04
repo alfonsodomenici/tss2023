@@ -45,7 +45,7 @@ export const useAuthStore = defineStore('auth', () => {
   function logout() {
     removeToken();
     refresh.value++;
-    router.push("/account/login")
+    router.push("/accounts/login")
   }
 
   return { isLogged, loggedId, loggedUser, isAdmin, isUser, token, login, logout };

@@ -20,7 +20,9 @@ const { proiezione, biglietto } = storeToRefs(store);
 store.getById(id);
 
 function onSave() {
-    store.prenota(id);
+    store.prenota(id)
+        .then(_ => alertStore.success('Biglietti prenotati con successo.'))
+        .catch(error => alertStore.error('Si è verificato un errore durante la prenotazione.' + error));
 }
 </script>
 

@@ -23,14 +23,16 @@ saleStore.getAll();
 store.getById(id);
 
 function onSave() {
-    console.log(progr.value);
-    store.createProgrammazione(id);
+    store.createProgrammazione(id)
+        .then(_ => alertStore.success('Film programmato con successo.'))
+        .catch(error => alertStore.error('Si è verificato un errore durante il salvataggio.'))
 }
 </script>
 
 <template>
-    <p class="title has-text-centered is-size-4">Programma 
-        <span class="has-text-info is-size-3">{{ film.titolo }}</span></p>
+    <p class="title has-text-centered is-size-4">Programma
+        <span class="has-text-info is-size-3">{{ film.titolo }}</span>
+    </p>
     <form method="post" ref="form">
         <div class="field">
             <label class="label">Quando</label>

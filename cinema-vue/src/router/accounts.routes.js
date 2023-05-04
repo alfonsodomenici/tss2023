@@ -1,7 +1,7 @@
-import { Layout, Login, Registration } from '@/views/account';
+import { Layout, Login, Registration } from '@/views/accounts';
 
 export default {
-    path: '/account',
+    path: '/accounts',
     component: Layout,
     children: [
         { path: '', redirect: 'login' },

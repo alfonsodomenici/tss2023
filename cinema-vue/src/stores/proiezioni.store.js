@@ -26,7 +26,7 @@ export const useProiezioniStore = defineStore("proiezioni", () => {
   }
 
   async function prenota(id) {
-    biglietto.value = request('POST', `${baseUrl}/${id}/biglietti`, biglietto.value);
+    biglietto.value = await request('POST', `${baseUrl}/${id}/biglietti`, biglietto.value);
     biglietto.value = {};
   }
   return { proiezioni, proiezione, biglietti, biglietto, getAll, getById, remove, getBiglietti, prenota };

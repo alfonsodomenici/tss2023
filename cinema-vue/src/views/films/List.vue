@@ -13,9 +13,12 @@ const started = ref(false);
 
 store.getAll();
 
-function onElimina(id){
+function onElimina(id) {
     started.value = true;
-    store.remove(id);
+    store.remove(id)
+        .then(_ => alertStore.success('Film eliminato con successo.'))
+        .catch(error => alertStore.error("Si è verificato un errore durante l'eliminazione."))
+        ;
 }
 </script>
 
@@ -35,9 +38,11 @@ function onElimina(id){
                 </div>
                 <div class="list-item-controls">
                     <div class="buttons is-right">
-                        <RouterLink :to="`/films/edit/${item.id}`" class="button is-link" >Modifica</RouterLink>
-                        <RouterLink :to="`/films/${item.id}/programmazione`" class="button is-link" >Programmazione</RouterLink>
-                        <button @click="onElimina(item.id)" class="button is-danger" :class="{ 'is-loading': alertStore.isLoading }">Elimina</button>
+                        <RouterLink :to="`/films/edit/${item.id}`" class="button is-link">Modifica</RouterLink>
+                        <RouterLink :to="`/films/${item.id}/programmazione`" class="button is-link">Programmazione
+                        </RouterLink>
+                        <button @click="onElimina(item.id)" class="button is-danger"
+                            :class="{ 'is-loading': alertStore.isLoading }">Elimina</button>
                     </div>
                 </div>
             </div>
